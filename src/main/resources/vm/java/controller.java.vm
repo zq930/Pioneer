@@ -1,0 +1,104 @@
+package ${packageName}.controller;
+
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.pioneer.common.annotation.Log;
+import com.pioneer.common.core.controller.BaseController;
+import com.pioneer.common.core.domain.AjaxResult;
+import com.pioneer.common.enums.BusinessType;
+import com.pioneer.web.${moduleName}.domain.${ClassName};
+import com.pioneer.web.${moduleName}.service.I${ClassName}Service;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
+
+import javax.annotation.Resource;
+import java.util.Arrays;
+import java.util.List;
+
+/**
+ * ${functionName}
+ *
+ * @author ${author}
+ * @date ${datetime}
+ */
+@RestController
+@RequestMapping("/${moduleName}/${businessName}")
+public class ${ClassName}Controller extends BaseController {
+
+    @Resource
+    private I${ClassName}Service ${className}Service;
+
+    /**
+     * 获取${functionName}列表
+     *
+     * @param ${className} 查询条件
+     * @return 结果
+     */
+    @PreAuthorize("@ss.hasPerm('${permissionPrefix}:list')")
+    @GetMapping("/list")
+    #if($table.crud || $table.sub)
+    public AjaxResult list(${ClassName} ${className}) {
+        boolean isPage = startPage();
+        List<${ClassName}> list = ${className}Service.list(new QueryWrapper<>(${className}));
+        return isPage ? getDataTable(list) : AjaxResult.success(list);
+    }
+    #elseif($table.tree)
+        public AjaxResult list(${ClassName} ${className}) {
+        List<${ClassName}> list = ${className}Service.select${ClassName}List(${className});
+        return AjaxResult.success(list);
+    }
+    #end
+
+    /**
+     * 根据${functionName}id获取详细信息
+     *
+     * @param ${className}Id ${functionName}id
+     * @return 结果
+     */
+    @PreAuthorize("@ss.hasPerm('${permissionPrefix}:query')")
+    @GetMapping(value = "/{${pkColumn.javaField}}")
+    public AjaxResult getInfo(@PathVariable ${pkColumn.javaType} ${pkColumn.javaField}) {
+        return AjaxResult.success(${className}Service.getById(${pkColumn.javaField}));
+    }
+
+    /**
+     * 新增${functionName}
+     *
+     * @param ${className} ${functionName}
+     * @return 结果
+     */
+    @PreAuthorize("@ss.hasPerm('${permissionPrefix}:add')")
+    @Log(title = "${functionName}", businessType = BusinessType.INSERT)
+    @PostMapping
+    public AjaxResult add(@Validated @RequestBody ${ClassName} ${className}) {
+        ${className}.setCreateBy(getUsername());
+        return toAjax(${className}Service.save(${className}));
+    }
+
+    /**
+     * 修改${functionName}
+     *
+     * @param ${className} ${functionName}
+     * @return 结果
+     */
+    @PreAuthorize("@ss.hasPerm('${permissionPrefix}:edit')")
+    @Log(title = "${functionName}", businessType = BusinessType.UPDATE)
+    @PutMapping
+    public AjaxResult edit(@Validated @RequestBody ${ClassName} ${className}) {
+        ${className}.setUpdateBy(getUsername());
+        return toAjax(${className}Service.updateById(${className}));
+    }
+
+    /**
+     * 删除${functionName}
+     *
+     * @param ${className}Ids ${functionName}id数组
+     * @return 结果
+     */
+    @PreAuthorize("@ss.hasPerm('${permissionPrefix}:remove')")
+    @Log(title = "${functionName}", businessType = BusinessType.DELETE)
+    @DeleteMapping("/{${pkColumn.javaField}s}")
+        public AjaxResult remove(@PathVariable ${pkColumn.javaType}[] ${pkColumn.javaField}s) {
+        return toAjax(${className}Service.removeByIds(Arrays.asList(${pkColumn.javaField}s)));
+    }
+}

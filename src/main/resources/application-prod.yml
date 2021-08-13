@@ -1,0 +1,74 @@
+server:
+  port: 9001
+  servlet:
+    context-path: /prod-api
+
+# spring配置
+spring:
+  # 数据库配置
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://127.0.0.1:3306/pioneer
+    username: root
+    password: 123
+  # redis配置
+  redis:
+    # 地址
+    host: localhost
+    # 端口，默认为6379
+    port: 6379
+    # 数据库索引
+    database: 0
+    # 密码
+    password:
+    # 连接超时时间
+    timeout: 10s
+    lettuce:
+      pool:
+        # 连接池中的最小空闲连接
+        min-idle: 0
+        # 连接池中的最大空闲连接
+        max-idle: 8
+        # 连接池的最大数据库连接数
+        max-active: 8
+        # 连接池最大阻塞等待时间（使用负值表示没有限制）
+        max-wait: -1ms
+  # 文件上传
+  servlet:
+    multipart:
+      # 单个文件大小
+      max-file-size: 30MB
+      # 设置总上传的文件大小
+      max-request-size: 500MB
+
+# MyBatis-Plus配置
+mybatis-plus:
+  # 搜索指定包别名
+  type-aliases-package: com.pioneer.**.domain
+  #扫描xml路径
+  mapper-locations: classpath:mapper/**/*.xml
+  configuration:
+    #使用jdbc的getGeneratedKeys获取数据库自增主键值
+    use-generated-keys: true
+    #map映射空值替换
+    call-setters-on-nulls: true
+    #使用列别名替换列名
+    use-column-label: true
+    #下划线转驼峰
+    map-underscore-to-camel-case: true
+    #缓存
+    cache-enabled: true
+
+# 防止XSS攻击
+xss:
+  # 过滤开关
+  enabled: true
+  # 排除链接（多个用逗号分隔）
+  excludes: /system/notice/*
+  # 匹配链接
+  urlPatterns: /system/*,/monitor/*
+
+# 项目相关配置
+common:
+  # 文件路径
+  profile: E:/pioneer/file
