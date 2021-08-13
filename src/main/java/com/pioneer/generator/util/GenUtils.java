@@ -1,12 +1,11 @@
 package com.pioneer.generator.util;
 
+import cn.hutool.core.util.ArrayUtil;
 import cn.hutool.core.util.StrUtil;
 import com.pioneer.common.constant.GenConstants;
 import com.pioneer.generator.config.GenConfig;
 import com.pioneer.generator.domain.GenTable;
 import com.pioneer.generator.domain.GenTableColumn;
-
-import java.util.Arrays;
 
 /**
  * 代码生成工具类
@@ -24,7 +23,7 @@ public class GenUtils {
         genTable.setPackageName(GenConfig.packageName);
         genTable.setModuleName(getModuleName(GenConfig.packageName));
         genTable.setBusinessName(getBusinessName(genTable.getTableName()));
-        genTable.setFunctionName(replaceText(genTable.getTableComment()));
+        genTable.setFunctionName(StrUtil.replace(genTable.getTableComment(), "表", StrUtil.EMPTY));
         genTable.setFunctionAuthor(GenConfig.author);
         genTable.setCreateBy(operName);
     }
@@ -42,15 +41,15 @@ public class GenUtils {
         // 设置默认类型
         column.setJavaType(GenConstants.TYPE_STRING);
 
-        if (arraysContains(GenConstants.COLUMNTYPE_STR, dataType) || arraysContains(GenConstants.COLUMNTYPE_TEXT, dataType)) {
+        if (ArrayUtil.contains(GenConstants.COLUMNTYPE_STR, dataType) || ArrayUtil.contains(GenConstants.COLUMNTYPE_TEXT, dataType)) {
             // 字符串长度超过500设置为文本域
             Integer columnLength = getColumnLength(column.getColumnType());
-            String htmlType = columnLength >= 500 || arraysContains(GenConstants.COLUMNTYPE_TEXT, dataType) ? GenConstants.HTML_TEXTAREA : GenConstants.HTML_INPUT;
+            String htmlType = columnLength >= 500 || ArrayUtil.contains(GenConstants.COLUMNTYPE_TEXT, dataType) ? GenConstants.HTML_TEXTAREA : GenConstants.HTML_INPUT;
             column.setHtmlType(htmlType);
-        } else if (arraysContains(GenConstants.COLUMNTYPE_TIME, dataType)) {
+        } else if (ArrayUtil.contains(GenConstants.COLUMNTYPE_TIME, dataType)) {
             column.setJavaType(GenConstants.TYPE_DATE);
             column.setHtmlType(GenConstants.HTML_DATETIME);
-        } else if (arraysContains(GenConstants.COLUMNTYPE_NUMBER, dataType)) {
+        } else if (ArrayUtil.contains(GenConstants.COLUMNTYPE_NUMBER, dataType)) {
             column.setHtmlType(GenConstants.HTML_INPUT);
 
             String[] str = StrUtil.splitToArray(StrUtil.subBetween(column.getColumnType(), "(", ")"), ",");
@@ -70,15 +69,15 @@ public class GenUtils {
         column.setIsInsert(GenConstants.REQUIRE);
 
         // 编辑字段
-        if (!arraysContains(GenConstants.COLUMNNAME_NOT_EDIT, columnName) && !column.isPk()) {
+        if (!ArrayUtil.contains(GenConstants.COLUMNNAME_NOT_EDIT, columnName) && !column.isPk()) {
             column.setIsEdit(GenConstants.REQUIRE);
         }
         // 列表字段
-        if (!arraysContains(GenConstants.COLUMNNAME_NOT_LIST, columnName) && !column.isPk()) {
+        if (!ArrayUtil.contains(GenConstants.COLUMNNAME_NOT_LIST, columnName) && !column.isPk()) {
             column.setIsList(GenConstants.REQUIRE);
         }
         // 查询字段
-        if (!arraysContains(GenConstants.COLUMNNAME_NOT_QUERY, columnName) && !column.isPk()) {
+        if (!ArrayUtil.contains(GenConstants.COLUMNNAME_NOT_QUERY, columnName) && !column.isPk()) {
             column.setIsQuery(GenConstants.REQUIRE);
         }
 
@@ -110,24 +109,13 @@ public class GenUtils {
     }
 
     /**
-     * 校验数组是否包含指定值
-     *
-     * @param arr         数组
-     * @param targetValue 值
-     * @return 是否包含
-     */
-    public static boolean arraysContains(String[] arr, String targetValue) {
-        return Arrays.asList(arr).contains(targetValue);
-    }
-
-    /**
      * 获取模块名
      *
      * @param packageName 包名
      * @return 模块名
      */
     public static String getModuleName(String packageName) {
-        int lastIndex = packageName.lastIndexOf(".");
+        int lastIndex = packageName.lastIndexOf(StrUtil.DOT);
         int nameLength = packageName.length();
         return StrUtil.sub(packageName, lastIndex + 1, nameLength);
     }
@@ -139,7 +127,7 @@ public class GenUtils {
      * @return 业务名
      */
     public static String getBusinessName(String tableName) {
-        int lastIndex = tableName.lastIndexOf("_");
+        int lastIndex = tableName.lastIndexOf(StrUtil.UNDERLINE);
         int nameLength = tableName.length();
         return StrUtil.sub(tableName, lastIndex + 1, nameLength);
     }
@@ -154,7 +142,7 @@ public class GenUtils {
         boolean autoRemovePre = GenConfig.autoRemovePre;
         String tablePrefix = GenConfig.tablePrefix;
         if (autoRemovePre && StrUtil.isNotEmpty(tablePrefix)) {
-            String[] searchList = tablePrefix.split(",");
+            String[] searchList = tablePrefix.split(StrUtil.COMMA);
             tableName = replaceFirst(tableName, searchList);
         }
         return StrUtil.upperFirst(StrUtil.toCamelCase(tableName));
@@ -163,32 +151,19 @@ public class GenUtils {
     /**
      * 批量替换前缀
      *
-     * @param replacementm 替换值
-     * @param searchList   替换列表
+     * @param replacement 替换值
+     * @param searchList  替换列表
      * @return 结果
      */
-    public static String replaceFirst(String replacementm, String[] searchList) {
-        String text = replacementm;
+    public static String replaceFirst(String replacement, String[] searchList) {
+        String text = replacement;
         for (String searchString : searchList) {
-            if (replacementm.startsWith(searchString)) {
-                text = replacementm.replaceFirst(searchString, "");
+            if (replacement.startsWith(searchString)) {
+                text = replacement.replaceFirst(searchString, StrUtil.EMPTY);
                 break;
             }
         }
         return text;
-    }
-
-    /**
-     * 关键字替换
-     *
-     * @param text 需要被替换的名字
-     * @return 替换后的名字
-     */
-    public static String replaceText(String text) {
-        if (text == null) {
-            return null;
-        }
-        return text.replaceAll("(?:表)", StrUtil.EMPTY);
     }
 
     /**

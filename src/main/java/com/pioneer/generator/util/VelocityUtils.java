@@ -5,7 +5,7 @@ import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
 import com.alibaba.fastjson.JSONObject;
 import com.pioneer.common.constant.GenConstants;
-import com.pioneer.generator.constant.VmConstant;
+import com.pioneer.common.constant.VmConstant;
 import com.pioneer.generator.domain.GenTable;
 import com.pioneer.generator.domain.GenTableColumn;
 import org.apache.velocity.VelocityContext;

@@ -1,4 +1,4 @@
-package com.pioneer.generator.constant;
+package com.pioneer.common.constant;
 
 /**
  * VmConstant

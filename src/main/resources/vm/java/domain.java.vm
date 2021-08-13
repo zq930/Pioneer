@@ -34,6 +34,9 @@ public class ${ClassName} extends ${Entity} {
 #if($column.isPk=="1")
     @TableId(type = IdType.AUTO)
 #end
+#if($column.queryType=="LIKE")
+    @TableField(condition = SqlCondition.LIKE)
+#end
 #if($column.list)
 #set($parentheseIndex=$column.columnComment.indexOf("（"))
 #if($parentheseIndex != -1)
