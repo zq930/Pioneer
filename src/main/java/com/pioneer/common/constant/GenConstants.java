@@ -117,11 +117,6 @@ public interface GenConstants {
     String HTML_RADIO = "radio";
 
     /**
-     * 复选框
-     */
-    String HTML_CHECKBOX = "checkbox";
-
-    /**
      * 日期控件
      */
     String HTML_DATETIME = "datetime";
@@ -155,11 +150,6 @@ public interface GenConstants {
      * 长整型
      */
     String TYPE_LONG = "Long";
-
-    /**
-     * 浮点型
-     */
-    String TYPE_DOUBLE = "Double";
 
     /**
      * 高精度计算类型

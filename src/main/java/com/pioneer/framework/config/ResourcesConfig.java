@@ -3,9 +3,10 @@ package com.pioneer.framework.config;
 import cn.hutool.core.date.DatePattern;
 import com.baomidou.mybatisplus.autoconfigure.ConfigurationCustomizer;
 import com.baomidou.mybatisplus.extension.MybatisMapWrapperFactory;
-import com.fasterxml.jackson.databind.ser.std.DateSerializer;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalTimeSerializer;
 import com.pioneer.common.config.CommonConfig;
 import com.pioneer.common.constant.Constants;
 import com.pioneer.framework.interceptor.RepeatSubmitInterceptor;
@@ -21,10 +22,10 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import javax.annotation.Resource;
 import java.math.BigDecimal;
-import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.Collections;
-import java.util.Date;
 
 /**
  * 通用配置
@@ -63,10 +64,12 @@ public class ResourcesConfig implements WebMvcConfigurer {
         return builder -> builder
                 // Long使用字符串序列化（Long型超过17位时，返回前端会精度丢失）
                 .serializerByType(Long.class, ToStringSerializer.instance)
-                // Date格式化
-                .serializerByType(Date.class, new DateSerializer(true, new SimpleDateFormat(DatePattern.NORM_DATETIME_PATTERN)))
                 // LocalDateTime格式化
                 .serializerByType(LocalDateTime.class, new LocalDateTimeSerializer(DatePattern.NORM_DATETIME_FORMATTER))
+                // LocalDate格式化
+                .serializerByType(LocalDate.class, new LocalDateSerializer(DatePattern.NORM_DATE_FORMATTER))
+                // LocalTime格式化
+                .serializerByType(LocalTime.class, new LocalTimeSerializer(DatePattern.NORM_TIME_FORMATTER))
                 // BigDecimal格式化
                 .serializerByType(BigDecimal.class, new BigDecimalSerializer());
     }

@@ -5,11 +5,12 @@ import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
 import com.alibaba.fastjson.JSONObject;
 import com.pioneer.common.constant.GenConstants;
+import com.pioneer.generator.constant.VmConstant;
 import com.pioneer.generator.domain.GenTable;
 import com.pioneer.generator.domain.GenTableColumn;
 import org.apache.velocity.VelocityContext;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 
@@ -125,22 +126,21 @@ public class VelocityUtils {
      * @return 模板列表
      */
     public static List<String> getTemplateList(String tplCategory) {
-        List<String> templates = new ArrayList<>();
-        templates.add("vm/java/domain.java.vm");
-        templates.add("vm/java/mapper.java.vm");
-        templates.add("vm/java/service.java.vm");
-        templates.add("vm/java/serviceImpl.java.vm");
-        templates.add("vm/java/controller.java.vm");
-        templates.add("vm/xml/mapper.xml.vm");
-        templates.add("vm/sql/sql.vm");
-        templates.add("vm/js/api.js.vm");
+        List<String> templates = Arrays.asList(VmConstant.MENU_JAVA + VmConstant.DOMAIN,
+                VmConstant.MENU_JAVA + VmConstant.MAPPER,
+                VmConstant.MENU_JAVA + VmConstant.SERVICE,
+                VmConstant.MENU_JAVA + VmConstant.SERVICE_IMPL,
+                VmConstant.MENU_JAVA + VmConstant.CONTROLLER,
+                VmConstant.MENU_XML + VmConstant.XML,
+                VmConstant.MENU_SQL + VmConstant.SQL,
+                VmConstant.MENU_JS + VmConstant.JS);
         if (GenConstants.TPL_CRUD.equals(tplCategory)) {
-            templates.add("vm/vue/index.vue.vm");
+            templates.add(VmConstant.MENU_VUE + VmConstant.VUE);
         } else if (GenConstants.TPL_TREE.equals(tplCategory)) {
-            templates.add("vm/vue/index-tree.vue.vm");
+            templates.add(VmConstant.MENU_VUE + VmConstant.TREE);
         } else if (GenConstants.TPL_SUB.equals(tplCategory)) {
-            templates.add("vm/vue/index.vue.vm");
-            templates.add("vm/java/sub-domain.java.vm");
+            templates.add(VmConstant.MENU_VUE + VmConstant.VUE);
+            templates.add(VmConstant.MENU_JAVA + VmConstant.SUB_DOMAIN);
         }
         return templates;
     }
@@ -164,28 +164,28 @@ public class VelocityUtils {
         String mybatisPath = MYBATIS_PATH + "/" + moduleName;
         String vuePath = "vue";
 
-        if (template.contains("domain.java.vm")) {
+        if (template.contains(VmConstant.DOMAIN)) {
             fileName = StrUtil.format("{}/domain/{}.java", javaPath, className);
         }
-        if (template.contains("sub-domain.java.vm") && StrUtil.equals(GenConstants.TPL_SUB, genTable.getTplCategory())) {
+        if (template.contains(VmConstant.SUB_DOMAIN) && StrUtil.equals(GenConstants.TPL_SUB, genTable.getTplCategory())) {
             fileName = StrUtil.format("{}/domain/{}.java", javaPath, genTable.getSubTable().getClassName());
-        } else if (template.contains("mapper.java.vm")) {
+        } else if (template.contains(VmConstant.MAPPER)) {
             fileName = StrUtil.format("{}/mapper/{}Mapper.java", javaPath, className);
-        } else if (template.contains("service.java.vm")) {
+        } else if (template.contains(VmConstant.SERVICE)) {
             fileName = StrUtil.format("{}/service/I{}Service.java", javaPath, className);
-        } else if (template.contains("serviceImpl.java.vm")) {
+        } else if (template.contains(VmConstant.SERVICE_IMPL)) {
             fileName = StrUtil.format("{}/service/impl/{}ServiceImpl.java", javaPath, className);
-        } else if (template.contains("controller.java.vm")) {
+        } else if (template.contains(VmConstant.CONTROLLER)) {
             fileName = StrUtil.format("{}/controller/{}Controller.java", javaPath, className);
-        } else if (template.contains("mapper.xml.vm")) {
+        } else if (template.contains(VmConstant.XML)) {
             fileName = StrUtil.format("{}/{}Mapper.xml", mybatisPath, className);
-        } else if (template.contains("sql.vm")) {
+        } else if (template.contains(VmConstant.SQL)) {
             fileName = businessName + "Menu.sql";
-        } else if (template.contains("api.js.vm")) {
+        } else if (template.contains(VmConstant.JS)) {
             fileName = StrUtil.format("{}/api/{}/{}.js", vuePath, moduleName, businessName);
-        } else if (template.contains("index.vue.vm")) {
+        } else if (template.contains(VmConstant.VUE)) {
             fileName = StrUtil.format("{}/views/{}/{}/index.vue", vuePath, moduleName, businessName);
-        } else if (template.contains("index-tree.vue.vm")) {
+        } else if (template.contains(VmConstant.TREE)) {
             fileName = StrUtil.format("{}/views/{}/{}/index.vue", vuePath, moduleName, businessName);
         }
         return fileName;

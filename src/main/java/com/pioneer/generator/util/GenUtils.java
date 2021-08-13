@@ -53,17 +53,15 @@ public class GenUtils {
         } else if (arraysContains(GenConstants.COLUMNTYPE_NUMBER, dataType)) {
             column.setHtmlType(GenConstants.HTML_INPUT);
 
-            // 如果是浮点型 统一用BigDecimal
             String[] str = StrUtil.splitToArray(StrUtil.subBetween(column.getColumnType(), "(", ")"), ",");
             if (str != null && str.length == 2 && Integer.parseInt(str[1]) > 0) {
+                // 如果是浮点型 统一用BigDecimal
                 column.setJavaType(GenConstants.TYPE_BIGDECIMAL);
-            }
-            // 如果是整形
-            else if (str != null && str.length == 1 && Integer.parseInt(str[0]) <= 10) {
+            } else if (str != null && str.length == 1 && Integer.parseInt(str[0]) <= 10) {
+                // 如果是整形
                 column.setJavaType(GenConstants.TYPE_INTEGER);
-            }
-            // 长整形
-            else {
+            } else {
+                // 长整形
                 column.setJavaType(GenConstants.TYPE_LONG);
             }
         }
@@ -190,7 +188,7 @@ public class GenUtils {
         if (text == null) {
             return null;
         }
-        return text.replaceAll("(?:表|若依)", StrUtil.EMPTY);
+        return text.replaceAll("(?:表)", StrUtil.EMPTY);
     }
 
     /**
