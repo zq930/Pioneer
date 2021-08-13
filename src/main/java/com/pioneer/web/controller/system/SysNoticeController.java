@@ -1,6 +1,6 @@
 package com.pioneer.web.controller.system;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.pioneer.common.annotation.Log;
 import com.pioneer.common.core.controller.BaseController;
 import com.pioneer.common.core.domain.AjaxResult;
@@ -38,7 +38,7 @@ public class SysNoticeController extends BaseController {
     @GetMapping("/list")
     public AjaxResult list(SysNotice notice) {
         boolean isPage = startPage();
-        List<SysNotice> list = noticeService.list(new QueryWrapper<>(notice));
+        List<SysNotice> list = noticeService.list(Wrappers.query(notice));
         return isPage ? getDataTable(list) : AjaxResult.success(list);
     }
 

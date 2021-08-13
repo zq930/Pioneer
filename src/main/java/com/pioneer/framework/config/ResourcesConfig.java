@@ -3,6 +3,7 @@ package com.pioneer.framework.config;
 import cn.hutool.core.date.DatePattern;
 import com.baomidou.mybatisplus.autoconfigure.ConfigurationCustomizer;
 import com.baomidou.mybatisplus.extension.MybatisMapWrapperFactory;
+import com.fasterxml.jackson.databind.ser.std.DateSerializer;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 import com.pioneer.common.config.CommonConfig;
@@ -20,8 +21,10 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import javax.annotation.Resource;
 import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.util.Collections;
+import java.util.Date;
 
 /**
  * 通用配置
@@ -60,6 +63,8 @@ public class ResourcesConfig implements WebMvcConfigurer {
         return builder -> builder
                 // Long使用字符串序列化（Long型超过17位时，返回前端会精度丢失）
                 .serializerByType(Long.class, ToStringSerializer.instance)
+                // Date格式化
+                .serializerByType(Date.class, new DateSerializer(true, new SimpleDateFormat(DatePattern.NORM_DATETIME_PATTERN)))
                 // LocalDateTime格式化
                 .serializerByType(LocalDateTime.class, new LocalDateTimeSerializer(DatePattern.NORM_DATETIME_FORMATTER))
                 // BigDecimal格式化

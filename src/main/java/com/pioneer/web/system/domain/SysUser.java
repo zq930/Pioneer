@@ -12,7 +12,7 @@ import lombok.EqualsAndHashCode;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -103,7 +103,7 @@ public class SysUser extends BaseEntity {
     /**
      * 最后登录时间
      */
-    private Date loginDate;
+    private LocalDateTime loginDate;
 
     /**
      * 部门对象

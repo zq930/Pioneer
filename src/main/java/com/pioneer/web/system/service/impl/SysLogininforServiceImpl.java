@@ -2,6 +2,7 @@ package com.pioneer.web.system.service.impl;
 
 import cn.hutool.core.util.ObjectUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.pioneer.web.system.domain.SysLogininfor;
 import com.pioneer.web.system.mapper.SysLogininforMapper;
@@ -31,14 +32,11 @@ public class SysLogininforServiceImpl extends ServiceImpl<SysLogininforMapper, S
      */
     @Override
     public List<SysLogininfor> selectLogininforList(SysLogininfor loginInfo) {
-        QueryWrapper<SysLogininfor> wrapper = new QueryWrapper<>(loginInfo);
+        QueryWrapper<SysLogininfor> wrapper = Wrappers.query(loginInfo);
         Object beginTime = loginInfo.getParams().get("beginTime");
-        if (ObjectUtil.isNotNull(beginTime)) {
-            wrapper.ge("date_format(login_time, '%Y-%m-%d')", beginTime);
-        }
         Object endTime = loginInfo.getParams().get("endTime");
-        if (ObjectUtil.isNotNull(endTime)) {
-            wrapper.le("date_format(login_time, '%Y-%m-%d')", endTime);
+        if (ObjectUtil.isNotNull(beginTime) && ObjectUtil.isNotNull(endTime)) {
+            wrapper.between("date_format(login_time, '%Y-%m-%d')", beginTime, endTime);
         }
         wrapper.orderByDesc("info_id");
         return logininforMapper.selectList(wrapper);

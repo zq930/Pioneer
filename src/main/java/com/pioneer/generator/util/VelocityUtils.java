@@ -1,6 +1,5 @@
 package com.pioneer.generator.util;
 
-import cn.hutool.core.date.DatePattern;
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
@@ -11,7 +10,6 @@ import com.pioneer.generator.domain.GenTableColumn;
 import org.apache.velocity.VelocityContext;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 
@@ -62,7 +60,7 @@ public class VelocityUtils {
         velocityContext.put("basePackage", getPackagePrefix(packageName));
         velocityContext.put("packageName", packageName);
         velocityContext.put("author", genTable.getFunctionAuthor());
-        velocityContext.put("datetime", DateUtil.format(new Date(), DatePattern.NORM_DATETIME_FORMAT));
+        velocityContext.put("datetime", DateUtil.now());
         velocityContext.put("pkColumn", genTable.getPkColumn());
         velocityContext.put("importList", getImportList(genTable));
         velocityContext.put("permissionPrefix", getPermissionPrefix(moduleName, businessName));

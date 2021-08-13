@@ -14,7 +14,7 @@ import com.pioneer.web.system.service.ISysLogininforService;
 import com.pioneer.web.system.service.ISysOperLogService;
 import lombok.extern.slf4j.Slf4j;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.TimerTask;
 
 /**
@@ -61,7 +61,7 @@ public class AsyncFactory {
                 logininfor.setBrowser(browser);
                 logininfor.setOs(os);
                 logininfor.setMsg(message);
-                logininfor.setLoginTime(new Date());
+                logininfor.setLoginTime(LocalDateTime.now());
                 // 日志状态
                 if (StrUtil.equalsAny(status, Constants.LOGIN_SUCCESS, Constants.LOGOUT, Constants.REGISTER)) {
                     logininfor.setStatus(Constants.SUCCESS);
@@ -86,7 +86,7 @@ public class AsyncFactory {
             public void run() {
                 // 远程查询操作地点
                 operLog.setOperLocation(AddressUtils.getAddressByIp(operLog.getOperIp()));
-                operLog.setOperTime(new Date());
+                operLog.setOperTime(LocalDateTime.now());
                 SpringUtils.getBean(ISysOperLogService.class).save(operLog);
             }
         };

@@ -1,12 +1,10 @@
 package com.pioneer.web.system.domain;
 
-import cn.hutool.core.date.DatePattern;
 import com.baomidou.mybatisplus.annotation.*;
-import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -68,8 +66,7 @@ public class SysLogininfor implements Serializable {
     /**
      * 访问时间
      */
-    @JsonFormat(pattern = DatePattern.NORM_DATETIME_PATTERN)
-    private Date loginTime;
+    private LocalDateTime loginTime;
 
     /**
      * 请求参数

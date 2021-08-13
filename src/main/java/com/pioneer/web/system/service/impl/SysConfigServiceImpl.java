@@ -55,7 +55,7 @@ public class SysConfigServiceImpl extends ServiceImpl<SysConfigMapper, SysConfig
         if (StrUtil.isNotEmpty(configValue)) {
             return configValue;
         }
-        QueryWrapper<SysConfig> wrapper = new QueryWrapper<>();
+        QueryWrapper<SysConfig> wrapper = Wrappers.query();
         wrapper.eq("config_key", configKey);
         SysConfig retConfig = configMapper.selectOne(wrapper);
         if (ObjectUtil.isNotNull(retConfig)) {
@@ -87,14 +87,11 @@ public class SysConfigServiceImpl extends ServiceImpl<SysConfigMapper, SysConfig
      */
     @Override
     public List<SysConfig> selectConfigList(SysConfig config) {
-        QueryWrapper<SysConfig> wrapper = new QueryWrapper<>(config);
+        QueryWrapper<SysConfig> wrapper = Wrappers.query(config);
         Object beginTime = config.getParams().get("beginTime");
-        if (ObjectUtil.isNotNull(beginTime)) {
-            wrapper.ge("date_format(create_time,'%Y-%m-%d')", beginTime);
-        }
         Object endTime = config.getParams().get("endTime");
-        if (ObjectUtil.isNotNull(endTime)) {
-            wrapper.le("date_format(create_time,'%Y-%m-%d')", endTime);
+        if (ObjectUtil.isNotNull(beginTime) && ObjectUtil.isNotNull(endTime)) {
+            wrapper.between("date_format(create_time,'%Y-%m-%d')", beginTime, endTime);
         }
         return configMapper.selectList(wrapper);
     }
@@ -184,7 +181,7 @@ public class SysConfigServiceImpl extends ServiceImpl<SysConfigMapper, SysConfig
     @Override
     public String checkConfigKeyUnique(SysConfig config) {
         long configId = ObjectUtil.isNull(config.getConfigId()) ? -1L : config.getConfigId();
-        QueryWrapper<SysConfig> wrapper = new QueryWrapper<>();
+        QueryWrapper<SysConfig> wrapper = Wrappers.query();
         wrapper.eq("config_key", config.getConfigKey());
         SysConfig info = configMapper.selectOne(wrapper);
         if (ObjectUtil.isNotNull(info) && info.getConfigId() != configId) {

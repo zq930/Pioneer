@@ -18,7 +18,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 /**
  * 登录校验方法
@@ -109,7 +109,7 @@ public class SysLoginService {
      */
     public void recordLoginInfo(SysUser user) {
         user.setLoginIp(ServletUtil.getClientIP(ServletUtils.getRequest()));
-        user.setLoginDate(new Date());
+        user.setLoginDate(LocalDateTime.now());
         userService.updateUserProfile(user);
     }
 }

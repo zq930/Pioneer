@@ -12,7 +12,6 @@ import oshi.hardware.GlobalMemory;
 import oshi.software.os.OSFileStore;
 
 import java.lang.management.ManagementFactory;
-import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Properties;
@@ -103,8 +102,8 @@ public class Server {
         jvm.setHome(props.getProperty("java.home"));
         jvm.setName(ManagementFactory.getRuntimeMXBean().getVmName());
         long time = ManagementFactory.getRuntimeMXBean().getStartTime();
-        jvm.setStartTime(DateUtil.formatDateTime(new Date(time)));
-        jvm.setRunTime(DateUtil.formatBetween(new Date(), new Date(time)));
+        jvm.setStartTime(DateUtil.formatDateTime(DateUtil.date(time)));
+        jvm.setRunTime(DateUtil.formatBetween(DateUtil.date(), DateUtil.date(time)));
     }
 
     /**

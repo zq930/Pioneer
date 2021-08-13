@@ -1,6 +1,6 @@
 package ${packageName}.controller;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.pioneer.common.annotation.Log;
 import com.pioneer.common.core.controller.BaseController;
 import com.pioneer.common.core.domain.AjaxResult;
@@ -39,7 +39,7 @@ public class ${ClassName}Controller extends BaseController {
     #if($table.crud || $table.sub)
     public AjaxResult list(${ClassName} ${className}) {
         boolean isPage = startPage();
-        List<${ClassName}> list = ${className}Service.list(new QueryWrapper<>(${className}));
+        List<${ClassName}> list = ${className}Service.list(Wrappers.query(${className}));
         return isPage ? getDataTable(list) : AjaxResult.success(list);
     }
     #elseif($table.tree)
