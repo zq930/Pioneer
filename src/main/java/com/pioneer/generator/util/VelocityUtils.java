@@ -10,6 +10,7 @@ import com.pioneer.generator.domain.GenTable;
 import com.pioneer.generator.domain.GenTableColumn;
 import org.apache.velocity.VelocityContext;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
@@ -126,14 +127,14 @@ public class VelocityUtils {
      * @return 模板列表
      */
     public static List<String> getTemplateList(String tplCategory) {
-        List<String> templates = Arrays.asList(VmConstant.MENU_JAVA + VmConstant.DOMAIN,
+        List<String> templates = new ArrayList<>(Arrays.asList(VmConstant.MENU_JAVA + VmConstant.DOMAIN,
                 VmConstant.MENU_JAVA + VmConstant.MAPPER,
                 VmConstant.MENU_JAVA + VmConstant.SERVICE,
                 VmConstant.MENU_JAVA + VmConstant.SERVICE_IMPL,
                 VmConstant.MENU_JAVA + VmConstant.CONTROLLER,
                 VmConstant.MENU_XML + VmConstant.XML,
                 VmConstant.MENU_SQL + VmConstant.SQL,
-                VmConstant.MENU_JS + VmConstant.JS);
+                VmConstant.MENU_JS + VmConstant.JS));
         if (GenConstants.TPL_CRUD.equals(tplCategory)) {
             templates.add(VmConstant.MENU_VUE + VmConstant.VUE);
         } else if (GenConstants.TPL_TREE.equals(tplCategory)) {
