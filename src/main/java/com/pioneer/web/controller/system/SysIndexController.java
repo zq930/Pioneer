@@ -1,6 +1,5 @@
 package com.pioneer.web.controller.system;
 
-import cn.hutool.core.util.StrUtil;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -20,6 +19,6 @@ public class SysIndexController {
      */
     @RequestMapping("/")
     public String index() {
-        return StrUtil.format("欢迎使用{}后台管理框架，当前版本：v{}，请通过前端地址访问。", "xx系统", "1.0");
+        return "请通过前端地址访问";
     }
 }
