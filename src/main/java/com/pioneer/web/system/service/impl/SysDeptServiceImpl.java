@@ -76,12 +76,12 @@ public class SysDeptServiceImpl extends ServiceImpl<SysDeptMapper, SysDept> impl
     /**
      * 构建前端所需要下拉树结构
      *
-     * @param depts 部门列表
+     * @param deptList 部门列表
      * @return 下拉树结构列表
      */
     @Override
-    public List<TreeSelect> buildDeptTreeSelect(List<SysDept> depts) {
-        List<SysDept> deptTrees = buildDeptTree(depts);
+    public List<TreeSelect> buildDeptTreeSelect(List<SysDept> deptList) {
+        List<SysDept> deptTrees = buildDeptTree(deptList);
         return deptTrees.stream().map(TreeSelect::new).collect(Collectors.toList());
     }
 

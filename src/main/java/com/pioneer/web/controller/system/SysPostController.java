@@ -124,15 +124,4 @@ public class SysPostController extends BaseController {
     public AjaxResult remove(@PathVariable Long[] postIds) {
         return toAjax(postService.deletePostByIds(postIds));
     }
-
-    /**
-     * 获取岗位选择框列表
-     *
-     * @return 结果
-     */
-    @GetMapping("/optionselect")
-    public AjaxResult optionSelect() {
-        List<SysPost> posts = postService.selectPostAll();
-        return AjaxResult.success(posts);
-    }
 }

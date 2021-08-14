@@ -59,7 +59,7 @@ public class SysMenuController extends BaseController {
      * @param menu 查询条件
      * @return 结果
      */
-    @GetMapping("/treeselect")
+    @GetMapping("/treeSelect")
     public AjaxResult treeSelect(SysMenu menu) {
         List<SysMenu> menus = menuService.selectMenuList(menu, getUserId());
         return AjaxResult.success(menuService.buildMenuTreeSelect(menus));
@@ -71,12 +71,12 @@ public class SysMenuController extends BaseController {
      * @param roleId 角色id
      * @return 结果
      */
-    @GetMapping(value = "/roleMenuTreeselect/{roleId}")
+    @GetMapping(value = "/roleMenuTreeSelect/{roleId}")
     public AjaxResult roleMenuTreeSelect(@PathVariable("roleId") Long roleId) {
-        List<SysMenu> menus = menuService.selectMenuList(getUserId());
+        List<SysMenu> menuList = menuService.selectMenuList(getUserId());
         AjaxResult ajax = AjaxResult.success();
         ajax.put("checkedKeys", menuService.selectMenuListByRoleId(roleId));
-        ajax.put("menus", menuService.buildMenuTreeSelect(menus));
+        ajax.put("menuList", menuService.buildMenuTreeSelect(menuList));
         return ajax;
     }
 

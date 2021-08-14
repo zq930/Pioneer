@@ -140,7 +140,7 @@ public class SysDictTypeController extends BaseController {
      *
      * @return 结果
      */
-    @GetMapping("/optionselect")
+    @GetMapping("/optionSelect")
     public AjaxResult optionSelect() {
         List<SysDictType> dictTypes = dictTypeService.selectDictTypeAll();
         return AjaxResult.success(dictTypes);

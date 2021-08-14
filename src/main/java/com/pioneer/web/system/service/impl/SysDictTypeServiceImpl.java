@@ -69,14 +69,14 @@ public class SysDictTypeServiceImpl extends ServiceImpl<SysDictTypeMapper, SysDi
      */
     @Override
     public List<SysDictData> selectDictDataByType(String dictType) {
-        List<SysDictData> dictDatas = DictUtils.getDictCache(dictType);
-        if (CollUtil.isNotEmpty(dictDatas)) {
-            return dictDatas;
+        List<SysDictData> dictDataList = DictUtils.getDictCache(dictType);
+        if (CollUtil.isNotEmpty(dictDataList)) {
+            return dictDataList;
         }
-        dictDatas = dictDataMapper.selectDictDataByType(dictType);
-        if (CollUtil.isNotEmpty(dictDatas)) {
-            DictUtils.setDictCache(dictType, dictDatas);
-            return dictDatas;
+        dictDataList = dictDataMapper.selectDictDataByType(dictType);
+        if (CollUtil.isNotEmpty(dictDataList)) {
+            DictUtils.setDictCache(dictType, dictDataList);
+            return dictDataList;
         }
         return null;
     }
@@ -116,8 +116,8 @@ public class SysDictTypeServiceImpl extends ServiceImpl<SysDictTypeMapper, SysDi
     public void loadingDictCache() {
         List<SysDictType> dictTypeList = dictTypeMapper.selectDictTypeAll();
         for (SysDictType dictType : dictTypeList) {
-            List<SysDictData> dictDatas = dictDataMapper.selectDictDataByType(dictType.getDictType());
-            DictUtils.setDictCache(dictType.getDictType(), dictDatas);
+            List<SysDictData> dictDataList = dictDataMapper.selectDictDataByType(dictType.getDictType());
+            DictUtils.setDictCache(dictType.getDictType(), dictDataList);
         }
     }
 

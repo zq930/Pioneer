@@ -414,13 +414,13 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
      * 得到子节点列表
      */
     private List<SysMenu> getChildList(List<SysMenu> list, SysMenu t) {
-        List<SysMenu> tlist = new ArrayList<>();
+        List<SysMenu> menuList = new ArrayList<>();
         for (SysMenu n : list) {
             if (n.getParentId().longValue() == t.getMenuId().longValue()) {
-                tlist.add(n);
+                menuList.add(n);
             }
         }
-        return tlist;
+        return menuList;
     }
 
     /**

@@ -190,7 +190,7 @@ public class SysRoleController extends BaseController {
      * @return 结果
      */
     @PreAuthorize("@ss.hasPerm('system:role:query')")
-    @GetMapping("/optionselect")
+    @GetMapping("/optionSelect")
     public AjaxResult optionSelect() {
         return AjaxResult.success(roleService.selectRoleAll());
     }

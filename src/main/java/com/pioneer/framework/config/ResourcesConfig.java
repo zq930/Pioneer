@@ -3,7 +3,6 @@ package com.pioneer.framework.config;
 import cn.hutool.core.date.DatePattern;
 import com.baomidou.mybatisplus.autoconfigure.ConfigurationCustomizer;
 import com.baomidou.mybatisplus.extension.MybatisMapWrapperFactory;
-import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalTimeSerializer;
@@ -62,8 +61,6 @@ public class ResourcesConfig implements WebMvcConfigurer {
     @Bean
     public Jackson2ObjectMapperBuilderCustomizer jackson2ObjectMapperBuilderCustomizer() {
         return builder -> builder
-                // Long使用字符串序列化（Long型超过17位时，返回前端会精度丢失）
-                .serializerByType(Long.class, ToStringSerializer.instance)
                 // LocalDateTime格式化
                 .serializerByType(LocalDateTime.class, new LocalDateTimeSerializer(DatePattern.NORM_DATETIME_FORMATTER))
                 // LocalDate格式化
