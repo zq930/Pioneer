@@ -38,7 +38,7 @@ public class SysOperLogServiceImpl extends ServiceImpl<SysOperLogMapper, SysOper
         if (ObjectUtil.isNotNull(beginTime) && ObjectUtil.isNotNull(endTime)) {
             wrapper.between("date_format(oper_time, '%Y-%m-%d')", beginTime, endTime);
         }
-        wrapper.orderByDesc("oper_id");
+        wrapper.lambda().orderByDesc(SysOperLog::getOperId);
         return operLogMapper.selectList(wrapper);
     }
 

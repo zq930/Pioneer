@@ -56,7 +56,7 @@ public class SysConfigServiceImpl extends ServiceImpl<SysConfigMapper, SysConfig
             return configValue;
         }
         QueryWrapper<SysConfig> wrapper = Wrappers.query();
-        wrapper.eq("config_key", configKey);
+        wrapper.lambda().eq(SysConfig::getConfigKey, configKey);
         SysConfig retConfig = configMapper.selectOne(wrapper);
         if (ObjectUtil.isNotNull(retConfig)) {
             redisCache.setCacheObject(getCacheKey(configKey), retConfig.getConfigValue());
@@ -182,7 +182,7 @@ public class SysConfigServiceImpl extends ServiceImpl<SysConfigMapper, SysConfig
     public String checkConfigKeyUnique(SysConfig config) {
         long configId = ObjectUtil.isNull(config.getConfigId()) ? -1L : config.getConfigId();
         QueryWrapper<SysConfig> wrapper = Wrappers.query();
-        wrapper.eq("config_key", config.getConfigKey());
+        wrapper.lambda().eq(SysConfig::getConfigKey, config.getConfigKey());
         SysConfig info = configMapper.selectOne(wrapper);
         if (ObjectUtil.isNotNull(info) && info.getConfigId() != configId) {
             return UserConstants.NOT_UNIQUE;

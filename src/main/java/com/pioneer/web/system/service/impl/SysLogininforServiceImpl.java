@@ -38,7 +38,7 @@ public class SysLogininforServiceImpl extends ServiceImpl<SysLogininforMapper, S
         if (ObjectUtil.isNotNull(beginTime) && ObjectUtil.isNotNull(endTime)) {
             wrapper.between("date_format(login_time, '%Y-%m-%d')", beginTime, endTime);
         }
-        wrapper.orderByDesc("info_id");
+        wrapper.lambda().orderByDesc(SysLogininfor::getInfoId);
         return logininforMapper.selectList(wrapper);
     }
 
