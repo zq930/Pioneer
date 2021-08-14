@@ -1,6 +1,5 @@
 package com.pioneer.web.system.service;
 
-import com.baomidou.mybatisplus.extension.service.IService;
 import com.pioneer.web.system.domain.SysUser;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -13,7 +12,7 @@ import java.util.List;
  * @date 2021-08-09 18:09:53
  */
 @Transactional(rollbackFor = Exception.class)
-public interface ISysUserService extends IService<SysUser> {
+public interface ISysUserService {
 
     /**
      * 根据条件分页查询用户列表

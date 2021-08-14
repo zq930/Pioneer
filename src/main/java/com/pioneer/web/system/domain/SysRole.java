@@ -1,11 +1,8 @@
 package com.pioneer.web.system.domain;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
 import com.pioneer.common.core.domain.BaseEntity;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
@@ -16,9 +13,8 @@ import javax.validation.constraints.Size;
  * @author hlm
  * @date 2021-08-09 17:57:40
  */
-@EqualsAndHashCode(callSuper = true)
-@Data
-@TableName("sys_role")
+@Getter
+@Setter
 public class SysRole extends BaseEntity {
 
     private static final long serialVersionUID = -6848160077884542829L;
@@ -26,7 +22,6 @@ public class SysRole extends BaseEntity {
     /**
      * 角色ID
      */
-    @TableId(type = IdType.AUTO)
     private Long roleId;
 
     /**
@@ -77,17 +72,17 @@ public class SysRole extends BaseEntity {
     /**
      * 用户是否存在此角色标识 默认不存在
      */
-    private transient boolean flag = false;
+    private boolean flag = false;
 
     /**
      * 菜单组
      */
-    private transient Long[] menuIds;
+    private Long[] menuIds;
 
     /**
      * 部门组（数据权限）
      */
-    private transient Long[] deptIds;
+    private Long[] deptIds;
 
     public SysRole() {
     }

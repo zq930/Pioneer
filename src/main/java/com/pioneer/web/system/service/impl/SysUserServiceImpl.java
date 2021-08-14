@@ -4,7 +4,6 @@ import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.ArrayUtil;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.pioneer.common.annotation.DataScope;
 import com.pioneer.common.constant.UserConstants;
 import com.pioneer.common.exception.CustomException;
@@ -28,7 +27,7 @@ import java.util.List;
  */
 @Slf4j
 @Service
-public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> implements ISysUserService {
+public class SysUserServiceImpl implements ISysUserService {
 
     @Resource
     private SysUserMapper userMapper;

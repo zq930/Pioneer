@@ -1,6 +1,5 @@
 package com.pioneer.web.system.service;
 
-import com.baomidou.mybatisplus.extension.service.IService;
 import com.pioneer.web.system.domain.SysRole;
 import com.pioneer.web.system.domain.SysUserRole;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,7 +14,7 @@ import java.util.Set;
  * @date 2021-08-09 18:09:24
  */
 @Transactional(rollbackFor = Exception.class)
-public interface ISysRoleService extends IService<SysRole> {
+public interface ISysRoleService {
 
     /**
      * 根据条件分页查询角色数据

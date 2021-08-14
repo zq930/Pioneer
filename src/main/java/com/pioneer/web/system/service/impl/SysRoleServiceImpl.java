@@ -1,7 +1,6 @@
 package com.pioneer.web.system.service.impl;
 
 import cn.hutool.core.util.ObjectUtil;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.pioneer.common.annotation.DataScope;
 import com.pioneer.common.constant.UserConstants;
 import com.pioneer.common.exception.CustomException;
@@ -26,7 +25,7 @@ import java.util.*;
  * @date 2021-08-09 18:13:48
  */
 @Service
-public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> implements ISysRoleService {
+public class SysRoleServiceImpl implements ISysRoleService {
 
     @Resource
     private SysRoleMapper roleMapper;

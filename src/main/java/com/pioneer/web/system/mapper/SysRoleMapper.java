@@ -1,6 +1,5 @@
 package com.pioneer.web.system.mapper;
 
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.pioneer.web.system.domain.SysRole;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -13,7 +12,7 @@ import java.util.List;
  * @date 2021-08-09 18:04:12
  */
 @Mapper
-public interface SysRoleMapper extends BaseMapper<SysRole> {
+public interface SysRoleMapper {
 
     /**
      * 根据条件分页查询角色数据

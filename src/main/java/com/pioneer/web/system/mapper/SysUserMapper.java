@@ -1,6 +1,5 @@
 package com.pioneer.web.system.mapper;
 
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.pioneer.web.system.domain.SysUser;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -14,7 +13,7 @@ import java.util.List;
  * @date 2021-08-09 18:04:31
  */
 @Mapper
-public interface SysUserMapper extends BaseMapper<SysUser> {
+public interface SysUserMapper {
 
     /**
      * 根据条件分页查询用户列表

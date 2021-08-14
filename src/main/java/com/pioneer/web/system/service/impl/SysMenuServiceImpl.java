@@ -4,7 +4,6 @@ import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.http.HttpUtil;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.pioneer.common.constant.UserConstants;
 import com.pioneer.common.core.domain.TreeSelect;
 import com.pioneer.common.utils.SecurityUtils;
@@ -30,7 +29,7 @@ import java.util.stream.Collectors;
  * @date 2021-08-09 18:13:16
  */
 @Service
-public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> implements ISysMenuService {
+public class SysMenuServiceImpl implements ISysMenuService {
 
     @Resource
     private SysMenuMapper menuMapper;

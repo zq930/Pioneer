@@ -1,6 +1,5 @@
 package com.pioneer.web.system.service;
 
-import com.baomidou.mybatisplus.extension.service.IService;
 import com.pioneer.common.core.domain.TreeSelect;
 import com.pioneer.web.system.domain.SysMenu;
 import com.pioneer.web.system.domain.vo.RouterVo;
@@ -14,7 +13,7 @@ import java.util.Set;
  * @author hlm
  * @date 2021-08-09 18:08:08
  */
-public interface ISysMenuService extends IService<SysMenu> {
+public interface ISysMenuService {
 
     /**
      * 根据用户查询系统菜单列表

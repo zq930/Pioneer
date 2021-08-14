@@ -1,11 +1,8 @@
 package com.pioneer.web.system.domain;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
 import com.pioneer.common.core.domain.BaseEntity;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
@@ -18,17 +15,15 @@ import java.util.List;
  * @author hlm
  * @date 2021-08-09 17:56:35
  */
-@EqualsAndHashCode(callSuper = true)
-@Data
-@TableName("sys_menu")
+@Getter
+@Setter
 public class SysMenu extends BaseEntity {
 
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 5536436830661677246L;
 
     /**
      * 菜单ID
      */
-    @TableId(type = IdType.AUTO)
     private Long menuId;
 
     /**
@@ -106,5 +101,5 @@ public class SysMenu extends BaseEntity {
     /**
      * 子菜单
      */
-    private transient List<SysMenu> children = new ArrayList<>();
+    private List<SysMenu> children = new ArrayList<>();
 }

@@ -1,13 +1,10 @@
 package com.pioneer.web.system.domain;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.pioneer.common.core.domain.BaseEntity;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
@@ -21,9 +18,8 @@ import java.util.List;
  * @author hlm
  * @date 2021-08-09 17:58:58
  */
-@EqualsAndHashCode(callSuper = true)
-@Data
-@TableName("sys_user")
+@Getter
+@Setter
 public class SysUser extends BaseEntity {
 
     private static final long serialVersionUID = -5720329550858073431L;
@@ -31,7 +27,6 @@ public class SysUser extends BaseEntity {
     /**
      * 用户ID
      */
-    @TableId(type = IdType.AUTO)
     private Long userId;
 
     /**
@@ -108,27 +103,27 @@ public class SysUser extends BaseEntity {
     /**
      * 部门对象
      */
-    private transient SysDept dept;
+    private SysDept dept;
 
     /**
      * 角色对象
      */
-    private transient List<SysRole> roles;
+    private List<SysRole> roles;
 
     /**
      * 角色组
      */
-    private transient Long[] roleIds;
+    private Long[] roleIds;
 
     /**
      * 岗位组
      */
-    private transient Long[] postIds;
+    private Long[] postIds;
 
     /**
      * 角色
      */
-    private transient Long roleId;
+    private Long roleId;
 
     public SysUser() {
 
