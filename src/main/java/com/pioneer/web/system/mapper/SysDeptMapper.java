@@ -108,10 +108,10 @@ public interface SysDeptMapper extends BaseMapper<SysDept> {
     /**
      * 修改子元素关系
      *
-     * @param depts 子元素
+     * @param deptList 子元素
      * @return 结果
      */
-    int updateDeptChildren(@Param("depts") List<SysDept> depts);
+    int updateDeptChildren(@Param("deptList") List<SysDept> deptList);
 
     /**
      * 删除部门管理信息
