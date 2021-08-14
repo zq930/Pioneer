@@ -145,8 +145,8 @@ public class TokenService {
         String ip = ServletUtil.getClientIP(ServletUtils.getRequest());
         loginUser.setIpaddr(ip);
         loginUser.setLoginLocation(AddressUtils.getAddressByIp(ip));
-        loginUser.setBrowser(userAgent.getBrowser().getName());
-        loginUser.setOs(userAgent.getOs().getName());
+        loginUser.setBrowser(userAgent.getBrowser() + StrUtil.SPACE + userAgent.getVersion());
+        loginUser.setOs(userAgent.getPlatform() + StrUtil.SPACE + userAgent.getOsVersion());
     }
 
     /**

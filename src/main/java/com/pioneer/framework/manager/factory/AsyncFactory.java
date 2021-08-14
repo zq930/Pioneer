@@ -50,9 +50,9 @@ public class AsyncFactory {
                         StrUtil.format(template, message);
                 log.info(s, args);
                 // 获取客户端操作系统
-                String os = userAgent.getOs().getName();
+                String os = userAgent.getPlatform() + StrUtil.SPACE + userAgent.getOsVersion();
                 // 获取客户端浏览器
-                String browser = userAgent.getBrowser().getName();
+                String browser = userAgent.getBrowser() + StrUtil.SPACE + userAgent.getVersion();
                 // 封装对象
                 SysLogininfor logininfor = new SysLogininfor();
                 logininfor.setUserName(username);
@@ -91,4 +91,5 @@ public class AsyncFactory {
             }
         };
     }
+
 }
