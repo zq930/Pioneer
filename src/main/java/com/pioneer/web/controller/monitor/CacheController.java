@@ -39,19 +39,21 @@ public class CacheController {
         Properties commandStats = (Properties) redisTemplate.execute((RedisCallback<Object>) connection -> connection.info("commandstats"));
         Object dbSize = redisTemplate.execute((RedisCallback<Object>) RedisServerCommands::dbSize);
 
-        Map<String, Object> result = new HashMap<>(3);
+        List<Map<String, String>> pieList = new ArrayList<>();
+        if (commandStats != null) {
+            commandStats.stringPropertyNames().forEach(key -> {
+                Map<String, String> data = new HashMap<>(2);
+                String property = commandStats.getProperty(key);
+                data.put("name", StrUtil.removePrefix(key, "cmdstat_"));
+                data.put("value", StrUtil.subBetween(property, "calls=", ",usec"));
+                pieList.add(data);
+            });
+        }
+
+        // 返回
+        Map<String, Object> result = new HashMap<>(16);
         result.put("info", info);
         result.put("dbSize", dbSize);
-
-        List<Map<String, String>> pieList = new ArrayList<>();
-        assert commandStats != null;
-        commandStats.stringPropertyNames().forEach(key -> {
-            Map<String, String> data = new HashMap<>(2);
-            String property = commandStats.getProperty(key);
-            data.put("name", StrUtil.removePrefix(key, "cmdstat_"));
-            data.put("value", StrUtil.subBetween(property, "calls=", ",usec"));
-            pieList.add(data);
-        });
         result.put("commandStats", pieList);
         return AjaxResult.success(result);
     }

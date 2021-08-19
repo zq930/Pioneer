@@ -30,6 +30,7 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(CustomException.class)
     public AjaxResult businessException(CustomException e) {
+        log.error(e.getMessage(), e);
         return AjaxResult.error(e.getMessage());
     }
 
@@ -41,7 +42,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(AccessDeniedException.class)
     public AjaxResult handleAuthorizationException(AccessDeniedException e) {
-        log.error(e.getMessage());
+        log.error(e.getMessage(), e);
         return AjaxResult.error(HttpStatus.HTTP_FORBIDDEN, "没有权限，请联系管理员授权");
     }
 

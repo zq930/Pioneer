@@ -56,8 +56,11 @@ public class RateLimiterAspect {
 
     @Before("rateLimiterPointCut()")
     public void doBefore(JoinPoint point) {
+        // 获得注解
         RateLimiter rateLimiter = getAnnotationRateLimiter(point);
-        assert rateLimiter != null;
+        if (rateLimiter == null) {
+            return;
+        }
         String key = rateLimiter.key();
         int time = rateLimiter.time();
         int count = rateLimiter.count();
