@@ -142,7 +142,6 @@ public class DataScopeAspect {
         Signature signature = joinPoint.getSignature();
         MethodSignature methodSignature = (MethodSignature) signature;
         Method method = methodSignature.getMethod();
-
         if (method != null) {
             return method.getAnnotation(DataScope.class);
         }

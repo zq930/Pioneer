@@ -54,6 +54,11 @@ public interface Constants {
     String REPEAT_SUBMIT_KEY = "repeat_submit:";
 
     /**
+     * 限流 redis key
+     */
+    String RATE_LIMIT_KEY = "rate_limit:";
+
+    /**
      * 验证码有效期（分钟）
      */
     Integer CAPTCHA_EXPIRATION = 2;
