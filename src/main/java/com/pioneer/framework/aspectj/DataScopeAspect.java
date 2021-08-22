@@ -5,9 +5,7 @@ import cn.hutool.core.util.StrUtil;
 import com.pioneer.common.annotation.DataScope;
 import com.pioneer.common.core.domain.BaseEntity;
 import com.pioneer.common.core.domain.LoginUser;
-import com.pioneer.common.utils.ServletUtils;
-import com.pioneer.common.utils.SpringUtils;
-import com.pioneer.framework.web.service.TokenService;
+import com.pioneer.common.utils.SecurityUtils;
 import com.pioneer.web.system.domain.SysRole;
 import com.pioneer.web.system.domain.SysUser;
 import org.aspectj.lang.JoinPoint;
@@ -80,7 +78,7 @@ public class DataScopeAspect {
             return;
         }
         // 获取当前的用户
-        LoginUser loginUser = SpringUtils.getBean(TokenService.class).getLoginUser(ServletUtils.getRequest());
+        LoginUser loginUser = SecurityUtils.getLoginUser();
         if (ObjectUtil.isNotNull(loginUser)) {
             SysUser currentUser = loginUser.getUser();
             // 如果是超级管理员，则不过滤数据

@@ -10,11 +10,10 @@ import cn.hutool.json.JSONUtil;
 import com.pioneer.common.annotation.Log;
 import com.pioneer.common.core.domain.LoginUser;
 import com.pioneer.common.enums.BusinessStatus;
+import com.pioneer.common.utils.SecurityUtils;
 import com.pioneer.common.utils.ServletUtils;
-import com.pioneer.common.utils.SpringUtils;
 import com.pioneer.framework.manager.AsyncManager;
 import com.pioneer.framework.manager.factory.AsyncFactory;
-import com.pioneer.framework.web.service.TokenService;
 import com.pioneer.web.system.domain.SysOperLog;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
@@ -81,7 +80,7 @@ public class LogAspect {
             }
 
             // 获取当前的用户
-            LoginUser loginUser = SpringUtils.getBean(TokenService.class).getLoginUser(ServletUtils.getRequest());
+            LoginUser loginUser = SecurityUtils.getLoginUser();
 
             // *========数据库日志=========*//
             SysOperLog operLog = new SysOperLog();

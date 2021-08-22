@@ -13,7 +13,6 @@ import com.pioneer.common.core.domain.AjaxResult;
 import com.pioneer.common.core.domain.LoginUser;
 import com.pioneer.common.enums.BusinessType;
 import com.pioneer.common.utils.SecurityUtils;
-import com.pioneer.common.utils.ServletUtils;
 import com.pioneer.framework.web.service.TokenService;
 import com.pioneer.web.system.domain.SysUser;
 import com.pioneer.web.system.service.ISysUserService;
@@ -46,7 +45,7 @@ public class SysProfileController extends BaseController {
      */
     @GetMapping
     public AjaxResult profile() {
-        LoginUser loginUser = tokenService.getLoginUser(ServletUtils.getRequest());
+        LoginUser loginUser = getLoginUser();
         SysUser user = loginUser.getUser();
         AjaxResult ajax = AjaxResult.success(user);
         ajax.put("roleGroup", userService.selectUserRoleGroup(loginUser.getUsername()));
@@ -71,16 +70,16 @@ public class SysProfileController extends BaseController {
                 && UserConstants.NOT_UNIQUE.equals(userService.checkEmailUnique(user))) {
             return AjaxResult.error("修改用户'" + user.getUserName() + "'失败，邮箱账号已存在");
         }
-        LoginUser loginUser = tokenService.getLoginUser(ServletUtils.getRequest());
+        LoginUser loginUser = getLoginUser();
         SysUser sysUser = loginUser.getUser();
         user.setUserId(sysUser.getUserId());
         user.setPassword(null);
         if (userService.updateUserProfile(user) > 0) {
             // 更新缓存用户信息
-            loginUser.getUser().setNickName(user.getNickName());
-            loginUser.getUser().setPhoneNumber(user.getPhoneNumber());
-            loginUser.getUser().setEmail(user.getEmail());
-            loginUser.getUser().setSex(user.getSex());
+            sysUser.setNickName(user.getNickName());
+            sysUser.setPhoneNumber(user.getPhoneNumber());
+            sysUser.setEmail(user.getEmail());
+            sysUser.setSex(user.getSex());
             tokenService.setLoginUser(loginUser);
             return AjaxResult.success();
         }
@@ -97,7 +96,7 @@ public class SysProfileController extends BaseController {
     @Log(title = "个人信息", businessType = BusinessType.UPDATE)
     @PutMapping("/updatePwd")
     public AjaxResult updatePwd(String oldPassword, String newPassword) {
-        LoginUser loginUser = tokenService.getLoginUser(ServletUtils.getRequest());
+        LoginUser loginUser = getLoginUser();
         String userName = loginUser.getUsername();
         String password = loginUser.getPassword();
         if (!SecurityUtils.matchesPassword(oldPassword, password)) {
@@ -126,7 +125,7 @@ public class SysProfileController extends BaseController {
     @PostMapping("/avatar")
     public AjaxResult avatar(@RequestParam("avatarFile") MultipartFile file) throws IOException {
         if (!file.isEmpty()) {
-            LoginUser loginUser = tokenService.getLoginUser(ServletUtils.getRequest());
+            LoginUser loginUser = getLoginUser();
             // 头像文件路径
             String filePath = CommonConfig.getAvatarPath();
             // 获取后缀名
@@ -138,7 +137,7 @@ public class SysProfileController extends BaseController {
             // 获取相对资源路径
             String avatar = Constants.RESOURCE_PREFIX + CommonConfig.AVATAR + fileName;
             // 更新数据库
-            if (userService.updateUserAvatar(loginUser.getUsername(), avatar)) {
+            if (userService.updateUserAvatar(getUsername(), avatar)) {
                 AjaxResult ajax = AjaxResult.success();
                 ajax.put("imgUrl", avatar);
                 // 更新缓存用户头像

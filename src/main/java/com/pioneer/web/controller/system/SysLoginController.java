@@ -3,12 +3,9 @@ package com.pioneer.web.controller.system;
 import com.pioneer.common.constant.Constants;
 import com.pioneer.common.core.domain.AjaxResult;
 import com.pioneer.common.core.domain.LoginBody;
-import com.pioneer.common.core.domain.LoginUser;
 import com.pioneer.common.utils.SecurityUtils;
-import com.pioneer.common.utils.ServletUtils;
 import com.pioneer.framework.web.service.SysLoginService;
 import com.pioneer.framework.web.service.SysPermissionService;
-import com.pioneer.framework.web.service.TokenService;
 import com.pioneer.web.system.domain.SysMenu;
 import com.pioneer.web.system.domain.SysUser;
 import com.pioneer.web.system.service.ISysMenuService;
@@ -40,9 +37,6 @@ public class SysLoginController {
     @Resource
     private SysPermissionService permissionService;
 
-    @Resource
-    private TokenService tokenService;
-
     /**
      * 登录
      *
@@ -66,8 +60,7 @@ public class SysLoginController {
      */
     @GetMapping("getInfo")
     public AjaxResult getInfo() {
-        LoginUser loginUser = tokenService.getLoginUser(ServletUtils.getRequest());
-        SysUser user = loginUser.getUser();
+        SysUser user = SecurityUtils.getLoginUser().getUser();
         // 角色集合
         Set<String> roles = permissionService.getRolePermission(user);
         // 权限集合

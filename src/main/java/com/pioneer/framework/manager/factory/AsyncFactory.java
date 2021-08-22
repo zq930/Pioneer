@@ -2,12 +2,12 @@ package com.pioneer.framework.manager.factory;
 
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.extra.servlet.ServletUtil;
+import cn.hutool.extra.spring.SpringUtil;
 import cn.hutool.http.useragent.UserAgent;
 import cn.hutool.http.useragent.UserAgentUtil;
 import com.pioneer.common.constant.Constants;
 import com.pioneer.common.utils.AddressUtils;
 import com.pioneer.common.utils.ServletUtils;
-import com.pioneer.common.utils.SpringUtils;
 import com.pioneer.web.system.domain.SysLogininfor;
 import com.pioneer.web.system.domain.SysOperLog;
 import com.pioneer.web.system.service.ISysLogininforService;
@@ -69,7 +69,7 @@ public class AsyncFactory {
                     logininfor.setStatus(Constants.FAIL);
                 }
                 // 插入数据
-                SpringUtils.getBean(ISysLogininforService.class).save(logininfor);
+                SpringUtil.getBean(ISysLogininforService.class).save(logininfor);
             }
         };
     }
@@ -87,7 +87,7 @@ public class AsyncFactory {
                 // 远程查询操作地点
                 operLog.setOperLocation(AddressUtils.getAddressByIp(operLog.getOperIp()));
                 operLog.setOperTime(LocalDateTime.now());
-                SpringUtils.getBean(ISysOperLogService.class).save(operLog);
+                SpringUtil.getBean(ISysOperLogService.class).save(operLog);
             }
         };
     }

@@ -1,6 +1,6 @@
 package com.pioneer.framework.manager;
 
-import com.pioneer.common.utils.SpringUtils;
+import cn.hutool.extra.spring.SpringUtil;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.TimerTask;
@@ -19,7 +19,7 @@ public class AsyncManager {
     /**
      * 异步操作任务调度线程池
      */
-    private final ScheduledExecutorService executor = SpringUtils.getBean("scheduledExecutorService");
+    private final ScheduledExecutorService executor = SpringUtil.getBean("scheduledExecutorService");
 
     /**
      * 单例模式

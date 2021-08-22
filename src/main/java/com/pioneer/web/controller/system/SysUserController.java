@@ -9,11 +9,8 @@ import com.pioneer.common.annotation.Log;
 import com.pioneer.common.constant.UserConstants;
 import com.pioneer.common.core.controller.BaseController;
 import com.pioneer.common.core.domain.AjaxResult;
-import com.pioneer.common.core.domain.LoginUser;
 import com.pioneer.common.enums.BusinessType;
 import com.pioneer.common.utils.SecurityUtils;
-import com.pioneer.common.utils.ServletUtils;
-import com.pioneer.framework.web.service.TokenService;
 import com.pioneer.web.system.domain.SysRole;
 import com.pioneer.web.system.domain.SysUser;
 import com.pioneer.web.system.service.ISysPostService;
@@ -47,9 +44,6 @@ public class SysUserController extends BaseController {
 
     @Resource
     private ISysPostService postService;
-
-    @Resource
-    private TokenService tokenService;
 
     /**
      * 获取用户列表
@@ -101,9 +95,7 @@ public class SysUserController extends BaseController {
     @PostMapping("/importData")
     public AjaxResult importData(MultipartFile file, boolean updateSupport) throws Exception {
         List<SysUser> userList = ExcelUtil.getReader(file.getInputStream()).readAll(SysUser.class);
-        LoginUser loginUser = tokenService.getLoginUser(ServletUtils.getRequest());
-        String operName = loginUser.getUsername();
-        String message = userService.importUser(userList, updateSupport, operName);
+        String message = userService.importUser(userList, updateSupport, getUsername());
         return AjaxResult.success(message);
     }
 

@@ -4,10 +4,9 @@ import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
 import com.pioneer.common.core.domain.LoginUser;
-import com.pioneer.common.utils.ServletUtils;
+import com.pioneer.common.utils.SecurityUtils;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.Resource;
 import java.util.Set;
 
 /**
@@ -24,9 +23,6 @@ public class PermissionService {
      */
     private static final String ALL_PERMISSION = "*:*:*";
 
-    @Resource
-    private TokenService tokenService;
-
     /**
      * 验证用户是否具备某权限
      *
@@ -37,7 +33,7 @@ public class PermissionService {
         if (StrUtil.isEmpty(permission)) {
             return false;
         }
-        LoginUser loginUser = tokenService.getLoginUser(ServletUtils.getRequest());
+        LoginUser loginUser = SecurityUtils.getLoginUser();
         if (ObjectUtil.isNull(loginUser) || CollUtil.isEmpty(loginUser.getPermissions())) {
             return false;
         }
