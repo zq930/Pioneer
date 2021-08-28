@@ -8,7 +8,6 @@ import com.pioneer.common.core.controller.BaseController;
 import com.pioneer.common.core.domain.AjaxResult;
 import com.pioneer.common.core.domain.LoginUser;
 import com.pioneer.common.enums.BusinessType;
-import com.pioneer.common.utils.ServletUtils;
 import com.pioneer.framework.web.service.SysPermissionService;
 import com.pioneer.framework.web.service.TokenService;
 import com.pioneer.web.system.domain.SysRole;
@@ -88,6 +87,7 @@ public class SysRoleController extends BaseController {
     @PreAuthorize("@ss.hasPerm('system:role:query')")
     @GetMapping(value = "/{roleId}")
     public AjaxResult getInfo(@PathVariable Long roleId) {
+        roleService.checkRoleDataScope(roleId);
         return AjaxResult.success(roleService.selectRoleById(roleId));
     }
 

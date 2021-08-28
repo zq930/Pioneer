@@ -1,5 +1,6 @@
 package com.pioneer.web.system.service.impl;
 
+import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.convert.Convert;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
@@ -8,8 +9,10 @@ import com.pioneer.common.annotation.DataScope;
 import com.pioneer.common.constant.UserConstants;
 import com.pioneer.common.core.domain.TreeSelect;
 import com.pioneer.common.exception.CustomException;
+import com.pioneer.common.utils.SecurityUtils;
 import com.pioneer.web.system.domain.SysDept;
 import com.pioneer.web.system.domain.SysRole;
+import com.pioneer.web.system.domain.SysUser;
 import com.pioneer.web.system.mapper.SysDeptMapper;
 import com.pioneer.web.system.mapper.SysRoleMapper;
 import com.pioneer.web.system.service.ISysDeptService;
@@ -157,6 +160,23 @@ public class SysDeptServiceImpl extends ServiceImpl<SysDeptMapper, SysDept> impl
             return UserConstants.NOT_UNIQUE;
         }
         return UserConstants.UNIQUE;
+    }
+
+    /**
+     * 校验部门是否有数据权限
+     *
+     * @param deptId 部门id
+     */
+    @Override
+    public void checkDeptDataScope(Long deptId) {
+        if (!SysUser.isAdmin(SecurityUtils.getUserId())) {
+            SysDept dept = new SysDept();
+            dept.setDeptId(deptId);
+            List<SysDept> deptLIst = deptMapper.selectDeptList(dept);
+            if (CollUtil.isEmpty(deptLIst)) {
+                throw new CustomException("没有权限访问部门数据！");
+            }
+        }
     }
 
     /**

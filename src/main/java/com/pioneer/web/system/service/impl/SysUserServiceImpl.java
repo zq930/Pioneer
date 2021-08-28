@@ -320,6 +320,23 @@ public class SysUserServiceImpl implements ISysUserService {
     }
 
     /**
+     * 校验用户是否有数据权限
+     *
+     * @param userId 用户id
+     */
+    @Override
+    public void checkUserDataScope(Long userId) {
+        if (!SysUser.isAdmin(SecurityUtils.getUserId())) {
+            SysUser user = new SysUser();
+            user.setUserId(userId);
+            List<SysUser> userList = userMapper.selectUserList(user);
+            if (CollUtil.isEmpty(userList)) {
+                throw new CustomException("没有权限访问用户数据！");
+            }
+        }
+    }
+
+    /**
      * 新增用户角色信息
      *
      * @param user 用户对象

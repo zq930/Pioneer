@@ -1,13 +1,12 @@
 package com.pioneer.web.system.service.impl;
 
+import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.ObjectUtil;
 import com.pioneer.common.annotation.DataScope;
 import com.pioneer.common.constant.UserConstants;
 import com.pioneer.common.exception.CustomException;
-import com.pioneer.web.system.domain.SysRole;
-import com.pioneer.web.system.domain.SysRoleDept;
-import com.pioneer.web.system.domain.SysRoleMenu;
-import com.pioneer.web.system.domain.SysUserRole;
+import com.pioneer.common.utils.SecurityUtils;
+import com.pioneer.web.system.domain.*;
 import com.pioneer.web.system.mapper.SysRoleDeptMapper;
 import com.pioneer.web.system.mapper.SysRoleMapper;
 import com.pioneer.web.system.mapper.SysRoleMenuMapper;
@@ -163,6 +162,23 @@ public class SysRoleServiceImpl implements ISysRoleService {
     public void checkRoleAllowed(SysRole role) {
         if (ObjectUtil.isNotNull(role.getRoleId()) && role.isAdmin()) {
             throw new CustomException("不允许操作超级管理员角色");
+        }
+    }
+
+    /**
+     * 校验角色是否有数据权限
+     *
+     * @param roleId 角色id
+     */
+    @Override
+    public void checkRoleDataScope(Long roleId) {
+        if (!SysUser.isAdmin(SecurityUtils.getUserId())) {
+            SysRole role = new SysRole();
+            role.setRoleId(roleId);
+            List<SysRole> roleList = roleMapper.selectRoleList(role);
+            if (CollUtil.isEmpty(roleList)) {
+                throw new CustomException("没有权限访问角色数据！");
+            }
         }
     }
 

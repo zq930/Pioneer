@@ -66,6 +66,7 @@ public class SysDeptController extends BaseController {
     @PreAuthorize("@ss.hasPerm('system:dept:query')")
     @GetMapping(value = "/{deptId}")
     public AjaxResult getInfo(@PathVariable Long deptId) {
+        deptService.checkDeptDataScope(deptId);
         return AjaxResult.success(deptService.selectDeptById(deptId));
     }
 
