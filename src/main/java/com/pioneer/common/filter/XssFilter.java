@@ -19,6 +19,7 @@ import java.util.List;
  * @date 2021-08-09 17:45:47
  */
 public class XssFilter implements Filter {
+
     /**
      * 排除链接
      */
