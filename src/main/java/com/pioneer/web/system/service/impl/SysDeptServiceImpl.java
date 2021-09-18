@@ -172,8 +172,8 @@ public class SysDeptServiceImpl extends ServiceImpl<SysDeptMapper, SysDept> impl
         if (!SysUser.isAdmin(SecurityUtils.getUserId())) {
             SysDept dept = new SysDept();
             dept.setDeptId(deptId);
-            List<SysDept> deptLIst = deptMapper.selectDeptList(dept);
-            if (CollUtil.isEmpty(deptLIst)) {
+            List<SysDept> deptList = deptMapper.selectDeptList(dept);
+            if (CollUtil.isEmpty(deptList)) {
                 throw new CustomException("没有权限访问部门数据！");
             }
         }
