@@ -56,7 +56,8 @@ public class XssHttpServletRequestWrapper extends HttpServletRequestWrapper {
 
         // xss过滤
         json = HtmlUtil.filter(json).trim();
-        final ByteArrayInputStream bis = new ByteArrayInputStream(json.getBytes(CharsetUtil.CHARSET_UTF_8));
+        byte[] jsonBytes = json.getBytes(CharsetUtil.CHARSET_UTF_8);
+        final ByteArrayInputStream bis = new ByteArrayInputStream(jsonBytes);
         return new ServletInputStream() {
             @Override
             public boolean isFinished() {
@@ -66,6 +67,11 @@ public class XssHttpServletRequestWrapper extends HttpServletRequestWrapper {
             @Override
             public boolean isReady() {
                 return true;
+            }
+
+            @Override
+            public int available() {
+                return jsonBytes.length;
             }
 
             @Override

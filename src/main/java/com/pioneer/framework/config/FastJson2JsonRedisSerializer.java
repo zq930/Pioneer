@@ -22,8 +22,6 @@ public class FastJson2JsonRedisSerializer<T> implements RedisSerializer<T> {
 
     public static final Charset DEFAULT_CHARSET = CharsetUtil.CHARSET_UTF_8;
 
-    private ObjectMapper objectMapper = new ObjectMapper();
-
     private final Class<T> clazz;
 
     static {
@@ -54,6 +52,5 @@ public class FastJson2JsonRedisSerializer<T> implements RedisSerializer<T> {
 
     public void setObjectMapper(ObjectMapper objectMapper) {
         Assert.notNull(objectMapper, "'objectMapper' must not be null");
-        this.objectMapper = objectMapper;
     }
 }
