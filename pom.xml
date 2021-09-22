@@ -96,7 +96,7 @@
         <dependency>
             <groupId>com.baomidou</groupId>
             <artifactId>mybatis-plus-boot-starter</artifactId>
-            <version>3.4.3.2</version>
+            <version>3.4.3.3</version>
         </dependency>
 
         <!-- pageHelper 分页插件 -->
@@ -145,14 +145,14 @@
         <dependency>
             <groupId>com.github.oshi</groupId>
             <artifactId>oshi-core</artifactId>
-            <version>5.8.1</version>
+            <version>5.8.2</version>
         </dependency>
 
         <!-- 糊涂工具包：https://hutool.cn -->
         <dependency>
             <groupId>cn.hutool</groupId>
             <artifactId>hutool-all</artifactId>
-            <version>5.7.10</version>
+            <version>5.7.13</version>
         </dependency>
     </dependencies>
 
