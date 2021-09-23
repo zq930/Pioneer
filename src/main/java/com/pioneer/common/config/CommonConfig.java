@@ -13,6 +13,11 @@ import org.springframework.stereotype.Component;
 public class CommonConfig {
 
     /**
+     * 资源名称
+     */
+    private static String name;
+
+    /**
      * 资源路径
      */
     private static String profile;
@@ -31,6 +36,15 @@ public class CommonConfig {
      * 上传路径
      */
     public static final String UPLOAD = "/upload/";
+
+    public static String getName() {
+        return name;
+    }
+
+    @Value("${common.name}")
+    public void setName(String name) {
+        CommonConfig.name = name;
+    }
 
     public static String getProfile() {
         return profile;

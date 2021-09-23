@@ -69,5 +69,7 @@ xss:
 
 # 项目相关配置
 common:
+  # 项目名称
+  name: pioneer
   # 文件路径
   profile: E:/pioneer/file
