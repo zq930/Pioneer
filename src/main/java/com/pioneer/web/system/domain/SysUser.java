@@ -1,5 +1,7 @@
 package com.pioneer.web.system.domain;
 
+import cn.hutool.core.date.DatePattern;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.pioneer.common.core.domain.BaseEntity;
@@ -98,6 +100,7 @@ public class SysUser extends BaseEntity {
     /**
      * 最后登录时间
      */
+    @JsonFormat(pattern = DatePattern.NORM_DATETIME_PATTERN)
     private LocalDateTime loginDate;
 
     /**
