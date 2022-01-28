@@ -3,7 +3,6 @@ package com.pioneer.framework.web.service;
 import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
-import cn.hutool.extra.servlet.ServletUtil;
 import cn.hutool.http.useragent.UserAgent;
 import cn.hutool.http.useragent.UserAgentUtil;
 import com.pioneer.common.constant.Constants;
@@ -142,7 +141,7 @@ public class TokenService {
      */
     public void setUserAgent(LoginUser loginUser) {
         UserAgent userAgent = UserAgentUtil.parse(ServletUtils.getRequest().getHeader("User-Agent"));
-        String ip = ServletUtil.getClientIP(ServletUtils.getRequest());
+        String ip = ServletUtils.getClientIP(ServletUtils.getRequest());
         loginUser.setIpaddr(ip);
         loginUser.setLoginLocation(AddressUtils.getAddressByIp(ip));
         loginUser.setBrowser(userAgent.getBrowser() + StrUtil.SPACE + userAgent.getVersion());

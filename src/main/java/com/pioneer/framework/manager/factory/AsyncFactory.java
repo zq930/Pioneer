@@ -1,7 +1,6 @@
 package com.pioneer.framework.manager.factory;
 
 import cn.hutool.core.util.StrUtil;
-import cn.hutool.extra.servlet.ServletUtil;
 import cn.hutool.extra.spring.SpringUtil;
 import cn.hutool.http.useragent.UserAgent;
 import cn.hutool.http.useragent.UserAgentUtil;
@@ -37,7 +36,7 @@ public class AsyncFactory {
      */
     public static TimerTask recordLogininfor(final String username, final String status, final String message, final Object... args) {
         final UserAgent userAgent = UserAgentUtil.parse(ServletUtils.getRequest().getHeader("User-Agent"));
-        final String ip = ServletUtil.getClientIP(ServletUtils.getRequest());
+        final String ip = ServletUtils.getClientIP(ServletUtils.getRequest());
         return new TimerTask() {
             @Override
             public void run() {

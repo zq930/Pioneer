@@ -2,12 +2,12 @@ package com.pioneer.framework.security.handle;
 
 import cn.hutool.core.util.CharsetUtil;
 import cn.hutool.core.util.ObjectUtil;
-import cn.hutool.extra.servlet.ServletUtil;
 import cn.hutool.http.HttpStatus;
 import cn.hutool.json.JSONUtil;
 import com.pioneer.common.constant.Constants;
 import com.pioneer.common.core.domain.AjaxResult;
 import com.pioneer.common.core.domain.LoginUser;
+import com.pioneer.common.utils.ServletUtils;
 import com.pioneer.framework.manager.AsyncManager;
 import com.pioneer.framework.manager.factory.AsyncFactory;
 import com.pioneer.framework.web.service.TokenService;
@@ -44,6 +44,6 @@ public class LogoutSuccessHandlerImpl implements LogoutSuccessHandler {
             // 记录用户退出日志
             AsyncManager.me().execute(AsyncFactory.recordLogininfor(userName, Constants.LOGOUT, "退出成功"));
         }
-        ServletUtil.write(response, JSONUtil.toJsonStr(AjaxResult.error(HttpStatus.HTTP_OK, "退出成功")), CharsetUtil.UTF_8);
+        ServletUtils.write(response, JSONUtil.toJsonStr(AjaxResult.error(HttpStatus.HTTP_OK, "退出成功")), CharsetUtil.UTF_8);
     }
 }
