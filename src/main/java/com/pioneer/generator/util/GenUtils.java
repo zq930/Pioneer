@@ -1,8 +1,6 @@
 package com.pioneer.generator.util;
 
-import cn.hutool.core.math.MathUtil;
 import cn.hutool.core.util.ArrayUtil;
-import cn.hutool.core.util.NumberUtil;
 import cn.hutool.core.util.StrUtil;
 import com.pioneer.common.constant.GenConstants;
 import com.pioneer.generator.config.GenConfig;
@@ -55,11 +53,11 @@ public class GenUtils {
             column.setHtmlType(GenConstants.HTML_INPUT);
 
             String[] str = StrUtil.splitToArray(StrUtil.subBetween(column.getColumnType(), "(", ")"), ",");
-            MathUtil.arrangementCount(1);
-            if (str != null && str.length == 2 && Integer.parseInt(str[1]) > 0) {
+            int floatLength = 2, intLength = 10;
+            if (str != null && str.length == floatLength && Integer.parseInt(str[1]) > 0) {
                 // 如果是浮点型 统一用BigDecimal
                 column.setJavaType(GenConstants.TYPE_BIGDECIMAL);
-            } else if (str != null && str.length == 1 && Integer.parseInt(str[0]) <= 10) {
+            } else if (str != null && str.length == 1 && Integer.parseInt(str[0]) <= intLength) {
                 // 如果是整形
                 column.setJavaType(GenConstants.TYPE_INTEGER);
             } else {
@@ -84,29 +82,30 @@ public class GenUtils {
             column.setIsQuery(GenConstants.REQUIRE);
         }
 
+        String name = "name", status = "status", type = "type", sex = "sex", image = "image", file = "file", content = "content";
         // 查询字段类型
-        if (StrUtil.endWithIgnoreCase(columnName, "name")) {
+        if (StrUtil.endWithIgnoreCase(columnName, name)) {
             column.setQueryType(GenConstants.QUERY_LIKE);
         }
         // 状态字段设置单选框
-        if (StrUtil.endWithIgnoreCase(columnName, "status")) {
+        if (StrUtil.endWithIgnoreCase(columnName, status)) {
             column.setHtmlType(GenConstants.HTML_RADIO);
         }
         // 类型&性别字段设置下拉框
-        else if (StrUtil.endWithIgnoreCase(columnName, "type")
-                || StrUtil.endWithIgnoreCase(columnName, "sex")) {
+        else if (StrUtil.endWithIgnoreCase(columnName, type)
+                || StrUtil.endWithIgnoreCase(columnName, sex)) {
             column.setHtmlType(GenConstants.HTML_SELECT);
         }
         // 图片字段设置图片上传控件
-        else if (StrUtil.endWithIgnoreCase(columnName, "image")) {
+        else if (StrUtil.endWithIgnoreCase(columnName, image)) {
             column.setHtmlType(GenConstants.HTML_IMAGE_UPLOAD);
         }
         // 文件字段设置文件上传控件
-        else if (StrUtil.endWithIgnoreCase(columnName, "file")) {
+        else if (StrUtil.endWithIgnoreCase(columnName, file)) {
             column.setHtmlType(GenConstants.HTML_FILE_UPLOAD);
         }
         // 内容字段设置富文本控件
-        else if (StrUtil.endWithIgnoreCase(columnName, "content")) {
+        else if (StrUtil.endWithIgnoreCase(columnName, content)) {
             column.setHtmlType(GenConstants.HTML_EDITOR);
         }
     }
@@ -176,7 +175,8 @@ public class GenUtils {
      * @return 截取后的列类型
      */
     public static String getDbType(String columnType) {
-        if (StrUtil.indexOf(columnType, '(') > 0) {
+        char parentheses = '(';
+        if (StrUtil.indexOf(columnType, parentheses) > 0) {
             return StrUtil.subBefore(columnType, "(", false);
         } else {
             return columnType;
@@ -190,7 +190,8 @@ public class GenUtils {
      * @return 截取后的列类型
      */
     public static Integer getColumnLength(String columnType) {
-        if (StrUtil.indexOf(columnType, '(') > 0) {
+        char parentheses = '(';
+        if (StrUtil.indexOf(columnType, parentheses) > 0) {
             String length = StrUtil.subBetween(columnType, "(", ")");
             return Integer.valueOf(length);
         } else {
