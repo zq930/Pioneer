@@ -1,5 +1,6 @@
 package com.pioneer.common.utils;
 
+import cn.hutool.extra.servlet.ServletUtil;
 import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
@@ -12,7 +13,7 @@ import javax.servlet.http.HttpServletRequest;
  * @author hlm
  * @date 2021-08-09 17:46:24
  */
-public class ServletUtils {
+public class ServletUtils extends ServletUtil {
 
     /**
      * 获取request

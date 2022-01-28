@@ -50,7 +50,7 @@ public class SysOperlogController extends BaseController {
      */
     @Log(title = "操作日志", businessType = BusinessType.EXPORT)
     @PreAuthorize("@ss.hasPerm('monitor:operlog:export')")
-    @GetMapping("/export")
+    @PostMapping("/export")
     public AjaxResult export(SysOperLog operLog) {
         List<SysOperLog> list = operLogService.selectOperLogList(operLog);
         Map<String, String> headAlias = MapUtil.newHashMap(true);

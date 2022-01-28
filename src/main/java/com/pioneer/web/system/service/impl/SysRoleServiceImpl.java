@@ -106,7 +106,7 @@ public class SysRoleServiceImpl implements ISysRoleService {
      * @return 选中角色ID列表
      */
     @Override
-    public List<Integer> selectRoleListByUserId(Long userId) {
+    public List<Long> selectRoleListByUserId(Long userId) {
         return roleMapper.selectRoleListByUserId(userId);
     }
 
@@ -348,8 +348,8 @@ public class SysRoleServiceImpl implements ISysRoleService {
         List<SysUserRole> list = new ArrayList<>();
         for (Long userId : userIds) {
             SysUserRole ur = new SysUserRole();
-            ur.setUserId(userId);
             ur.setRoleId(roleId);
+            ur.setUserId(userId);
             list.add(ur);
         }
         return userRoleMapper.batchUserRole(list);

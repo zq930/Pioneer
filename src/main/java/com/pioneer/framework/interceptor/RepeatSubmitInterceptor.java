@@ -3,13 +3,13 @@ package com.pioneer.framework.interceptor;
 import cn.hutool.core.convert.Convert;
 import cn.hutool.core.util.CharsetUtil;
 import cn.hutool.core.util.StrUtil;
-import cn.hutool.extra.servlet.ServletUtil;
 import cn.hutool.json.JSONUtil;
 import com.pioneer.common.annotation.RepeatSubmit;
 import com.pioneer.common.constant.Constants;
 import com.pioneer.common.core.domain.AjaxResult;
 import com.pioneer.common.core.redis.RedisCache;
 import com.pioneer.common.filter.RepeatedlyRequestWrapper;
+import com.pioneer.common.utils.ServletUtils;
 import com.pioneer.framework.web.service.TokenService;
 import org.springframework.stereotype.Component;
 import org.springframework.web.method.HandlerMethod;
@@ -39,13 +39,6 @@ public class RepeatSubmitInterceptor implements HandlerInterceptor {
     @Resource
     private RedisCache redisCache;
 
-    /**
-     * 间隔时间，单位:秒 默认10秒
-     * <p>
-     * 两次相同参数的请求，如果间隔时间大于该参数，系统不会认定为重复提交的数据
-     */
-    private final int intervalTime = 10;
-
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
         if (handler instanceof HandlerMethod) {
@@ -53,9 +46,9 @@ public class RepeatSubmitInterceptor implements HandlerInterceptor {
             Method method = handlerMethod.getMethod();
             RepeatSubmit annotation = method.getAnnotation(RepeatSubmit.class);
             if (annotation != null) {
-                if (isRepeatSubmit(request)) {
-                    AjaxResult ajaxResult = AjaxResult.error("不允许重复提交，请稍后再试");
-                    ServletUtil.write(response, JSONUtil.toJsonStr(ajaxResult), CharsetUtil.UTF_8);
+                if (this.isRepeatSubmit(request, annotation)) {
+                    AjaxResult ajaxResult = AjaxResult.error(annotation.message());
+                    ServletUtils.write(response, JSONUtil.toJsonStr(ajaxResult), CharsetUtil.UTF_8);
                     return false;
                 }
             }
@@ -69,18 +62,18 @@ public class RepeatSubmitInterceptor implements HandlerInterceptor {
      * @param request 请求
      * @return boolean
      */
-    public boolean isRepeatSubmit(HttpServletRequest request) {
+    public boolean isRepeatSubmit(HttpServletRequest request, RepeatSubmit annotation) {
         String nowParams = StrUtil.EMPTY;
         if (request instanceof RepeatedlyRequestWrapper) {
             RepeatedlyRequestWrapper repeatedlyRequest = (RepeatedlyRequestWrapper) request;
-            nowParams = ServletUtil.getBody(repeatedlyRequest);
+            nowParams = ServletUtils.getBody(repeatedlyRequest);
         }
 
         // body参数为空，获取Parameter的数据
         if (StrUtil.isEmpty(nowParams)) {
             nowParams = JSONUtil.toJsonStr(request.getParameterMap());
         }
-        Map<String, Object> nowDataMap = new HashMap<>(16);
+        Map<String, Object> nowDataMap = new HashMap<>(4);
         nowDataMap.put(REPEAT_PARAMS, nowParams);
         nowDataMap.put(REPEAT_TIME, System.currentTimeMillis());
 
@@ -88,27 +81,24 @@ public class RepeatSubmitInterceptor implements HandlerInterceptor {
         String url = request.getRequestURI();
 
         // 唯一值（没有消息头则使用请求地址）
-        String submitKey = request.getHeader(TokenService.HEADER);
-        if (StrUtil.isEmpty(submitKey)) {
-            submitKey = url;
-        }
+        String submitKey = StrUtil.trimToEmpty(request.getHeader(TokenService.HEADER));
 
-        // 唯一标识（指定key + 消息头）
-        String cacheRepeatKey = Constants.REPEAT_SUBMIT_KEY + submitKey;
+        // 唯一标识（指定key + url + 消息头）
+        String cacheRepeatKey = Constants.REPEAT_SUBMIT_KEY + url + submitKey;
 
         Object sessionObj = redisCache.getCacheObject(cacheRepeatKey);
         if (sessionObj != null) {
             Map<String, Object> sessionMap = Convert.toMap(String.class, Object.class, sessionObj);
             if (sessionMap.containsKey(url)) {
                 Map<String, Object> preDataMap = Convert.toMap(String.class, Object.class, sessionMap.get(url));
-                if (compareParams(nowDataMap, preDataMap) && compareTime(nowDataMap, preDataMap)) {
+                if (compareParams(nowDataMap, preDataMap) && compareTime(nowDataMap, preDataMap, annotation.interval())) {
                     return true;
                 }
             }
         }
         Map<String, Object> cacheMap = new HashMap<>(16);
         cacheMap.put(url, nowDataMap);
-        redisCache.setCacheObject(cacheRepeatKey, cacheMap, intervalTime, TimeUnit.SECONDS);
+        redisCache.setCacheObject(cacheRepeatKey, cacheMap, annotation.interval(), TimeUnit.MILLISECONDS);
         return false;
     }
 
@@ -124,9 +114,9 @@ public class RepeatSubmitInterceptor implements HandlerInterceptor {
     /**
      * 判断两次间隔时间
      */
-    private boolean compareTime(Map<String, Object> nowMap, Map<String, Object> preMap) {
+    private boolean compareTime(Map<String, Object> nowMap, Map<String, Object> preMap, int interval) {
         long time1 = (Long) nowMap.get(REPEAT_TIME);
         long time2 = (Long) preMap.get(REPEAT_TIME);
-        return (time1 - time2) < (this.intervalTime * 1000L);
+        return (time1 - time2) < interval;
     }
 }

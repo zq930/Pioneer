@@ -67,7 +67,7 @@ public class SysUserController extends BaseController {
      */
     @Log(title = "用户管理", businessType = BusinessType.EXPORT)
     @PreAuthorize("@ss.hasPerm('system:user:export')")
-    @GetMapping("/export")
+    @PostMapping("/export")
     public AjaxResult export(SysUser user) {
         List<SysUser> list = userService.selectUserList(user);
         Map<String, String> headAlias = MapUtil.newHashMap(true);
@@ -104,7 +104,7 @@ public class SysUserController extends BaseController {
      *
      * @return 结果
      */
-    @GetMapping("/importTemplate")
+    @PostMapping("/importTemplate")
     public AjaxResult importTemplate() {
         return AjaxResult.success("用户导入模板.xlsx");
     }

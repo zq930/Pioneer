@@ -1,6 +1,5 @@
 package com.pioneer.web.system.domain;
 
-
 import lombok.Data;
 
 import java.io.Serializable;

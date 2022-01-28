@@ -97,19 +97,17 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .rememberMe().and()
                 // 过滤请求
                 .authorizeRequests()
-                // 对于登录login 验证码captchaImage 允许匿名访问
-                .antMatchers("/", "/login", "/register", "/captchaImage").anonymous()
+                // 对于登录login 注册register 验证码captchaImage 允许匿名访问
+                .antMatchers("/login", "/register", "/captchaImage").anonymous()
                 // 静态资源可以任意访问
-                .antMatchers(HttpMethod.GET, "/*.html", "/**/*.html", "/**/*.css", "/**/*.js").permitAll()
-                // 设置允许匿名访问的资源
-                .antMatchers("/profile/**").anonymous()
-                .antMatchers("/common/download**").anonymous()
-                .antMatchers("/common/download/resource**").anonymous()
+                .antMatchers(HttpMethod.GET, "/", "/*.html", "/**/*.html", "/**/*.css", "/**/*.js", "/profile/**").permitAll()
                 // 除上面外的所有请求全部需要鉴权认证
-                .anyRequest().authenticated().and()
+                .anyRequest().authenticated()
+                .and()
                 .headers().frameOptions().disable().and()
                 // 添加JWT filter
                 .addFilterBefore(tokenFilter, UsernamePasswordAuthenticationFilter.class)
+                // 添加CORS filter
                 .addFilterBefore(corsFilter, TokenFilter.class)
                 .addFilterBefore(corsFilter, LogoutFilter.class);
     }

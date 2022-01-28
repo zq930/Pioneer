@@ -3,6 +3,8 @@ package com.pioneer.web.basedata.domain;
 import com.baomidou.mybatisplus.annotation.*;
 import lombok.Data;
 
+import java.io.Serializable;
+
 /**
  * 民族
  *
@@ -11,9 +13,9 @@ import lombok.Data;
  */
 @Data
 @TableName("sys_nation")
-public class Nation{
+public class Nation implements Serializable {
 
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = -4489217948047717385L;
 
     /**
      * 民族id
@@ -26,5 +28,4 @@ public class Nation{
      */
     @TableField(condition = SqlCondition.LIKE)
     private String nationName;
-
 }

@@ -42,7 +42,7 @@ public class CacheController {
         List<Map<String, String>> pieList = new ArrayList<>();
         if (commandStats != null) {
             commandStats.stringPropertyNames().forEach(key -> {
-                Map<String, String> data = new HashMap<>(2);
+                Map<String, String> data = new HashMap<>(4);
                 String property = commandStats.getProperty(key);
                 data.put("name", StrUtil.removePrefix(key, "cmdstat_"));
                 data.put("value", StrUtil.subBetween(property, "calls=", ",usec"));
@@ -51,7 +51,7 @@ public class CacheController {
         }
 
         // 返回
-        Map<String, Object> result = new HashMap<>(16);
+        Map<String, Object> result = new HashMap<>(8);
         result.put("info", info);
         result.put("dbSize", dbSize);
         result.put("commandStats", pieList);

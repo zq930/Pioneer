@@ -2,7 +2,7 @@ package com.pioneer.common.filter;
 
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.StrUtil;
-import org.springframework.http.HttpMethod;
+import cn.hutool.http.Method;
 import org.springframework.util.AntPathMatcher;
 
 import javax.servlet.*;
@@ -49,7 +49,7 @@ public class XssFilter implements Filter {
     private boolean handleExcludeUrl(HttpServletRequest request) {
         String method = request.getMethod();
         // GET DELETE 不过滤
-        if (method == null || method.matches(HttpMethod.GET.name()) || method.matches(HttpMethod.DELETE.name())) {
+        if (method == null || method.matches(Method.GET.name()) || method.matches(Method.DELETE.name())) {
             return true;
         }
         String url = request.getServletPath();

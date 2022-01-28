@@ -3,6 +3,8 @@ package com.pioneer.web.basedata.domain;
 import com.baomidou.mybatisplus.annotation.*;
 import lombok.Data;
 
+import java.io.Serializable;
+
 /**
  * 地区
  *
@@ -11,9 +13,9 @@ import lombok.Data;
  */
 @Data
 @TableName("sys_area")
-public class Area {
+public class Area implements Serializable {
 
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = -2000632226719706193L;
 
     /**
      * ID

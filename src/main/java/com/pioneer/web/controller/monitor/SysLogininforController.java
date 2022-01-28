@@ -50,7 +50,7 @@ public class SysLogininforController extends BaseController {
      */
     @Log(title = "登录日志", businessType = BusinessType.EXPORT)
     @PreAuthorize("@ss.hasPerm('monitor:logininfor:export')")
-    @GetMapping("/export")
+    @PostMapping("/export")
     public AjaxResult export(SysLogininfor logininfor) {
         List<SysLogininfor> list = logininforService.selectLogininforList(logininfor);
         Map<String, String> headAlias = MapUtil.newHashMap(true);

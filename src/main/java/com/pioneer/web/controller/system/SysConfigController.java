@@ -52,7 +52,7 @@ public class SysConfigController extends BaseController {
      */
     @Log(title = "参数管理", businessType = BusinessType.EXPORT)
     @PreAuthorize("@ss.hasPerm('system:config:export')")
-    @GetMapping("/export")
+    @PostMapping("/export")
     public AjaxResult export(SysConfig config) {
         List<SysConfig> list = configService.selectConfigList(config);
         Map<String, String> headAlias = MapUtil.newHashMap(true);

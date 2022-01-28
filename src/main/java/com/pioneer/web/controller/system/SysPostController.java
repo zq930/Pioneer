@@ -51,7 +51,7 @@ public class SysPostController extends BaseController {
      */
     @Log(title = "岗位管理", businessType = BusinessType.EXPORT)
     @PreAuthorize("@ss.hasPerm('system:post:export')")
-    @GetMapping("/export")
+    @PostMapping("/export")
     public AjaxResult export(SysPost post) {
         List<SysPost> list = postService.selectPostList(post);
         Map<String, String> headAlias = MapUtil.newHashMap(true);
@@ -123,5 +123,14 @@ public class SysPostController extends BaseController {
     @DeleteMapping("/{postIds}")
     public AjaxResult remove(@PathVariable Long[] postIds) {
         return toAjax(postService.deletePostByIds(postIds));
+    }
+
+    /**
+     * 获取岗位选择框列表
+     */
+    @GetMapping("/optionSelect")
+    public AjaxResult optionSelect() {
+        List<SysPost> posts = postService.selectPostAll();
+        return AjaxResult.success(posts);
     }
 }

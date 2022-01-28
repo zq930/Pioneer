@@ -1,7 +1,7 @@
 package com.pioneer.common.filter;
 
 import cn.hutool.core.util.CharsetUtil;
-import cn.hutool.extra.servlet.ServletUtil;
+import com.pioneer.common.utils.ServletUtils;
 
 import javax.servlet.ReadListener;
 import javax.servlet.ServletInputStream;
@@ -12,6 +12,7 @@ import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 
 /**
  * 构建可重复读取inputStream的request
@@ -27,7 +28,7 @@ public class RepeatedlyRequestWrapper extends HttpServletRequestWrapper {
         super(request);
         request.setCharacterEncoding(CharsetUtil.UTF_8);
         response.setCharacterEncoding(CharsetUtil.UTF_8);
-        body = ServletUtil.getBody(request).getBytes(CharsetUtil.CHARSET_UTF_8);
+        body = ServletUtils.getBody(request).getBytes(CharsetUtil.CHARSET_UTF_8);
     }
 
     @Override

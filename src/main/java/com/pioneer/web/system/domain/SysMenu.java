@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.ArrayList;
 import java.util.List;
@@ -46,8 +47,8 @@ public class SysMenu extends BaseEntity {
     /**
      * 显示顺序
      */
-    @NotBlank(message = "显示顺序不能为空")
-    private String orderNum;
+    @NotNull(message = "显示顺序不能为空")
+    private Integer orderNum;
 
     /**
      * 路由地址
@@ -60,6 +61,11 @@ public class SysMenu extends BaseEntity {
      */
     @Size(max = 200, message = "组件路径不能超过255个字符")
     private String component;
+
+    /**
+     * 路由参数
+     */
+    private String query;
 
     /**
      * 是否为外链（0是 1否）

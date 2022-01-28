@@ -9,14 +9,9 @@ import com.pioneer.common.utils.SecurityUtils;
 import com.pioneer.web.system.domain.SysRole;
 import com.pioneer.web.system.domain.SysUser;
 import org.aspectj.lang.JoinPoint;
-import org.aspectj.lang.Signature;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
-import org.aspectj.lang.annotation.Pointcut;
-import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.stereotype.Component;
-
-import java.lang.reflect.Method;
 
 /**
  * 数据过滤处理
@@ -59,37 +54,6 @@ public class DataScopeAspect {
     public static final String DATA_SCOPE = "dataScope";
 
     /**
-     * 配置织入点
-     */
-    @Pointcut("@annotation(com.pioneer.common.annotation.DataScope)")
-    public void dataScopePointCut() {
-    }
-
-    @Before("dataScopePointCut()")
-    public void doBefore(JoinPoint point) {
-        clearDataScope(point);
-        handleDataScope(point);
-    }
-
-    protected void handleDataScope(final JoinPoint joinPoint) {
-        // 获得注解
-        DataScope controllerDataScope = getAnnotationLog(joinPoint);
-        if (controllerDataScope == null) {
-            return;
-        }
-        // 获取当前的用户
-        LoginUser loginUser = SecurityUtils.getLoginUser();
-        if (ObjectUtil.isNotNull(loginUser)) {
-            SysUser currentUser = loginUser.getUser();
-            // 如果是超级管理员，则不过滤数据
-            if (ObjectUtil.isNotNull(currentUser) && !currentUser.isAdmin()) {
-                dataScopeFilter(joinPoint, currentUser, controllerDataScope.deptAlias(),
-                        controllerDataScope.userAlias());
-            }
-        }
-    }
-
-    /**
      * 数据范围过滤
      *
      * @param joinPoint 切点
@@ -98,21 +62,18 @@ public class DataScopeAspect {
      */
     public static void dataScopeFilter(JoinPoint joinPoint, SysUser user, String deptAlias, String userAlias) {
         StringBuilder sqlString = new StringBuilder();
-
         for (SysRole role : user.getRoles()) {
             String dataScope = role.getDataScope();
             if (DATA_SCOPE_ALL.equals(dataScope)) {
                 sqlString = new StringBuilder();
                 break;
             } else if (DATA_SCOPE_CUSTOM.equals(dataScope)) {
-                sqlString.append(StrUtil.format(
-                        " OR {}.dept_id IN ( SELECT dept_id FROM sys_role_dept WHERE role_id = {} ) ", deptAlias,
+                sqlString.append(StrUtil.format(" OR {}.dept_id IN ( SELECT dept_id FROM sys_role_dept WHERE role_id = {} ) ", deptAlias,
                         role.getRoleId()));
             } else if (DATA_SCOPE_DEPT.equals(dataScope)) {
                 sqlString.append(StrUtil.format(" OR {}.dept_id = {} ", deptAlias, user.getDeptId()));
             } else if (DATA_SCOPE_DEPT_AND_CHILD.equals(dataScope)) {
-                sqlString.append(StrUtil.format(
-                        " OR {}.dept_id IN ( SELECT dept_id FROM sys_dept WHERE dept_id = {} or find_in_set( {} , ancestors ) )",
+                sqlString.append(StrUtil.format(" OR {}.dept_id IN ( SELECT dept_id FROM sys_dept WHERE dept_id = {} or find_in_set( {} , ancestors ) )",
                         deptAlias, user.getDeptId(), user.getDeptId()));
             } else if (DATA_SCOPE_SELF.equals(dataScope)) {
                 if (StrUtil.isNotBlank(userAlias)) {
@@ -123,7 +84,6 @@ public class DataScopeAspect {
                 }
             }
         }
-
         if (StrUtil.isNotBlank(sqlString.toString())) {
             Object params = joinPoint.getArgs()[0];
             if (ObjectUtil.isNotNull(params) && params instanceof BaseEntity) {
@@ -133,17 +93,22 @@ public class DataScopeAspect {
         }
     }
 
-    /**
-     * 是否存在注解，如果存在就获取
-     */
-    private DataScope getAnnotationLog(JoinPoint joinPoint) {
-        Signature signature = joinPoint.getSignature();
-        MethodSignature methodSignature = (MethodSignature) signature;
-        Method method = methodSignature.getMethod();
-        if (method != null) {
-            return method.getAnnotation(DataScope.class);
+    @Before("@annotation(controllerDataScope)")
+    public void doBefore(JoinPoint point, DataScope controllerDataScope) {
+        clearDataScope(point);
+        handleDataScope(point, controllerDataScope);
+    }
+
+    protected void handleDataScope(final JoinPoint joinPoint, DataScope controllerDataScope) {
+        // 获取当前的用户
+        LoginUser loginUser = SecurityUtils.getLoginUser();
+        if (ObjectUtil.isNotNull(loginUser)) {
+            SysUser currentUser = loginUser.getUser();
+            // 如果是超级管理员，则不过滤数据
+            if (ObjectUtil.isNotNull(currentUser) && !currentUser.isAdmin()) {
+                dataScopeFilter(joinPoint, currentUser, controllerDataScope.deptAlias(), controllerDataScope.userAlias());
+            }
         }
-        return null;
     }
 
     /**

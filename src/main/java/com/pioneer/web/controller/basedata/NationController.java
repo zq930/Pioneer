@@ -1,7 +1,6 @@
 package com.pioneer.web.controller.basedata;
 
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
-
 import com.pioneer.common.annotation.Log;
 import com.pioneer.common.core.controller.BaseController;
 import com.pioneer.common.core.domain.AjaxResult;
@@ -37,7 +36,7 @@ public class NationController extends BaseController {
      */
     @PreAuthorize("@ss.hasPerm('basedata:nation:list')")
     @GetMapping("/list")
-        public AjaxResult list(Nation nation) {
+    public AjaxResult list(Nation nation) {
         boolean isPage = startPage();
         List<Nation> list = nationService.list(Wrappers.query(nation));
         return isPage ? getDataTable(list) : AjaxResult.success(list);
@@ -90,7 +89,7 @@ public class NationController extends BaseController {
     @PreAuthorize("@ss.hasPerm('basedata:nation:remove')")
     @Log(title = "民族", businessType = BusinessType.DELETE)
     @DeleteMapping("/{nationIds}")
-        public AjaxResult remove(@PathVariable Long[] nationIds) {
+    public AjaxResult remove(@PathVariable Long[] nationIds) {
         return toAjax(nationService.removeByIds(Arrays.asList(nationIds)));
     }
 }

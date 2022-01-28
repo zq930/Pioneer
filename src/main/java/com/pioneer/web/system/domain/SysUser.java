@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.pioneer.common.core.domain.BaseEntity;
+import com.pioneer.common.xss.Xss;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -39,6 +40,7 @@ public class SysUser extends BaseEntity {
     /**
      * 用户账号
      */
+    @Xss(message = "用户账号不能包含脚本字符")
     @NotBlank(message = "用户账号不能为空")
     @Size(max = 30, message = "用户账号长度不能超过30个字符")
     private String userName;
@@ -46,6 +48,7 @@ public class SysUser extends BaseEntity {
     /**
      * 用户昵称
      */
+    @Xss(message = "用户昵称不能包含脚本字符")
     @Size(max = 30, message = "用户昵称长度不能超过30个字符")
     private String nickName;
 

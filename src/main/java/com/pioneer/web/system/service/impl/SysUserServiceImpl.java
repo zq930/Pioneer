@@ -4,6 +4,7 @@ import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.ArrayUtil;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
+import cn.hutool.extra.validation.ValidationUtil;
 import com.pioneer.common.annotation.DataScope;
 import com.pioneer.common.constant.UserConstants;
 import com.pioneer.common.exception.CustomException;
@@ -18,6 +19,7 @@ import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * SysUserServiceImpl
@@ -114,14 +116,10 @@ public class SysUserServiceImpl implements ISysUserService {
     @Override
     public String selectUserRoleGroup(String userName) {
         List<SysRole> list = roleMapper.selectRolesByUserName(userName);
-        StringBuilder idsStr = new StringBuilder();
-        for (SysRole role : list) {
-            idsStr.append(role.getRoleName()).append(",");
+        if (CollUtil.isEmpty(list)) {
+            return StrUtil.EMPTY;
         }
-        if (StrUtil.isNotEmpty(idsStr.toString())) {
-            return idsStr.substring(0, idsStr.length() - 1);
-        }
-        return idsStr.toString();
+        return list.stream().map(SysRole::getRoleName).collect(Collectors.joining(","));
     }
 
     /**
@@ -133,14 +131,10 @@ public class SysUserServiceImpl implements ISysUserService {
     @Override
     public String selectUserPostGroup(String userName) {
         List<SysPost> list = postMapper.selectPostsByUserName(userName);
-        StringBuilder idsStr = new StringBuilder();
-        for (SysPost post : list) {
-            idsStr.append(post.getPostName()).append(",");
+        if (CollUtil.isEmpty(list)) {
+            return StrUtil.EMPTY;
         }
-        if (StrUtil.isNotEmpty(idsStr.toString())) {
-            return idsStr.substring(0, idsStr.length() - 1);
-        }
-        return idsStr.toString();
+        return list.stream().map(SysPost::getPostName).collect(Collectors.joining(","));
     }
 
     /**
@@ -159,7 +153,7 @@ public class SysUserServiceImpl implements ISysUserService {
     }
 
     /**
-     * 校验用户名称是否唯一
+     * 校验手机号码是否唯一
      *
      * @param user 用户信息
      * @return 结果
@@ -199,6 +193,23 @@ public class SysUserServiceImpl implements ISysUserService {
     public void checkUserAllowed(SysUser user) {
         if (ObjectUtil.isNotNull(user.getUserId()) && user.isAdmin()) {
             throw new CustomException("不允许操作超级管理员用户");
+        }
+    }
+
+    /**
+     * 校验用户是否有数据权限
+     *
+     * @param userId 用户id
+     */
+    @Override
+    public void checkUserDataScope(Long userId) {
+        if (!SysUser.isAdmin(SecurityUtils.getUserId())) {
+            SysUser user = new SysUser();
+            user.setUserId(userId);
+            List<SysUser> users = userMapper.selectUserList(user);
+            if (CollUtil.isEmpty(users)) {
+                throw new CustomException("没有权限访问用户数据！");
+            }
         }
     }
 
@@ -320,23 +331,6 @@ public class SysUserServiceImpl implements ISysUserService {
     }
 
     /**
-     * 校验用户是否有数据权限
-     *
-     * @param userId 用户id
-     */
-    @Override
-    public void checkUserDataScope(Long userId) {
-        if (!SysUser.isAdmin(SecurityUtils.getUserId())) {
-            SysUser user = new SysUser();
-            user.setUserId(userId);
-            List<SysUser> userList = userMapper.selectUserList(user);
-            if (CollUtil.isEmpty(userList)) {
-                throw new CustomException("没有权限访问用户数据！");
-            }
-        }
-    }
-
-    /**
      * 新增用户角色信息
      *
      * @param user 用户对象
@@ -443,12 +437,14 @@ public class SysUserServiceImpl implements ISysUserService {
                 // 验证是否存在这个用户
                 SysUser u = userMapper.selectUserByUserName(user.getUserName());
                 if (ObjectUtil.isNull(u)) {
+                    ValidationUtil.validate(user);
                     user.setPassword(SecurityUtils.encryptPassword(password));
                     user.setCreateBy(operName);
                     this.insertUser(user);
                     successNum++;
                     successMsg.append("<br/>").append(successNum).append("、账号 ").append(user.getUserName()).append(" 导入成功");
                 } else if (isUpdateSupport) {
+                    ValidationUtil.validate(user);
                     user.setUpdateBy(operName);
                     this.updateUser(user);
                     successNum++;

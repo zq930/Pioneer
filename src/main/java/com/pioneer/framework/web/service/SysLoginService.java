@@ -1,6 +1,5 @@
 package com.pioneer.framework.web.service;
 
-import cn.hutool.extra.servlet.ServletUtil;
 import com.pioneer.common.constant.Constants;
 import com.pioneer.common.core.domain.LoginUser;
 import com.pioneer.common.core.redis.RedisCache;
@@ -65,18 +64,18 @@ public class SysLoginService {
             // 该方法会去调用UserDetailsServiceImpl.loadUserByUsername
             authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
         } catch (Exception e) {
+            String msg;
             if (e instanceof BadCredentialsException) {
-                String msg = "用户名或密码错误";
-                AsyncManager.me().execute(AsyncFactory.recordLogininfor(username, Constants.LOGIN_FAIL, msg));
-                throw new CustomException(msg);
+                msg = "用户名或密码错误";
             } else {
-                AsyncManager.me().execute(AsyncFactory.recordLogininfor(username, Constants.LOGIN_FAIL, e.getMessage()));
-                throw new CustomException(e.getMessage());
+                msg = e.getMessage();
             }
+            AsyncManager.me().execute(AsyncFactory.recordLogininfor(username, Constants.LOGIN_FAIL, msg));
+            throw new CustomException(msg);
         }
         AsyncManager.me().execute(AsyncFactory.recordLogininfor(username, Constants.LOGIN_SUCCESS, "登陆成功"));
         LoginUser loginUser = (LoginUser) authentication.getPrincipal();
-        recordLoginInfo(loginUser.getUser());
+        recordLoginInfo(loginUser.getUserId());
         // 生成token
         return tokenService.createToken(loginUser);
     }
@@ -107,9 +106,11 @@ public class SysLoginService {
     /**
      * 记录登录信息
      */
-    public void recordLoginInfo(SysUser user) {
-        user.setLoginIp(ServletUtil.getClientIP(ServletUtils.getRequest()));
-        user.setLoginDate(LocalDateTime.now());
-        userService.updateUserProfile(user);
+    public void recordLoginInfo(Long userId) {
+        SysUser sysUser = new SysUser();
+        sysUser.setUserId(userId);
+        sysUser.setLoginIp(ServletUtils.getClientIP(ServletUtils.getRequest()));
+        sysUser.setLoginDate(LocalDateTime.now());
+        userService.updateUserProfile(sysUser);
     }
 }

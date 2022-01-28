@@ -2,6 +2,7 @@ package com.pioneer.web.system.domain;
 
 import com.baomidou.mybatisplus.annotation.*;
 import com.pioneer.common.core.domain.BaseEntity;
+import com.pioneer.common.xss.Xss;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -31,6 +32,7 @@ public class SysNotice extends BaseEntity {
      * 公告标题
      */
     @TableField(condition = SqlCondition.LIKE)
+    @Xss(message = "公告标题不能包含脚本字符")
     @NotBlank(message = "公告标题不能为空")
     @Size(max = 50, message = "公告标题不能超过50个字符")
     private String noticeTitle;

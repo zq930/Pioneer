@@ -67,7 +67,7 @@ public class SysPostServiceImpl extends ServiceImpl<SysPostMapper, SysPost> impl
      * @return 选中岗位ID列表
      */
     @Override
-    public List<Integer> selectPostListByUserId(Long userId) {
+    public List<Long> selectPostListByUserId(Long userId) {
         return postMapper.selectPostListByUserId(userId);
     }
 

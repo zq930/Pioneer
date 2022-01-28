@@ -72,6 +72,7 @@ public class SysProfileController extends BaseController {
         }
         LoginUser loginUser = getLoginUser();
         SysUser sysUser = loginUser.getUser();
+        user.setUserName(sysUser.getUserName());
         user.setUserId(sysUser.getUserId());
         user.setPassword(null);
         if (userService.updateUserProfile(user) > 0) {

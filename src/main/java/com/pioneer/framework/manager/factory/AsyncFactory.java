@@ -35,16 +35,17 @@ public class AsyncFactory {
      * @param args     列表
      * @return 任务task
      */
-    public static TimerTask recordLogininfor(final String username, final String status, final String message,
-                                             final Object... args) {
+    public static TimerTask recordLogininfor(final String username, final String status, final String message, final Object... args) {
         final UserAgent userAgent = UserAgentUtil.parse(ServletUtils.getRequest().getHeader("User-Agent"));
         final String ip = ServletUtil.getClientIP(ServletUtils.getRequest());
         return new TimerTask() {
             @Override
             public void run() {
+                // 查询地址
+                String address = AddressUtils.getAddressByIp(ip);
                 // 打印信息到日志
                 String template = "[{}]";
-                String s = StrUtil.format(template, ip) +
+                String s = StrUtil.format(template, ip) + address +
                         StrUtil.format(template, username) +
                         StrUtil.format(template, status) +
                         StrUtil.format(template, message);
@@ -57,7 +58,7 @@ public class AsyncFactory {
                 SysLogininfor logininfor = new SysLogininfor();
                 logininfor.setUserName(username);
                 logininfor.setIpaddr(ip);
-                logininfor.setLoginLocation(AddressUtils.getAddressByIp(ip));
+                logininfor.setLoginLocation(address);
                 logininfor.setBrowser(browser);
                 logininfor.setOs(os);
                 logininfor.setMsg(message);
@@ -91,5 +92,4 @@ public class AsyncFactory {
             }
         };
     }
-
 }

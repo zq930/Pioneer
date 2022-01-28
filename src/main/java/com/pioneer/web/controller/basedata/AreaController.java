@@ -29,13 +29,11 @@ public class AreaController extends BaseController {
     @Resource
     private IAreaService areaService;
 
-
     /**
      * 获取地区列表
      *
      * @param area 查询条件
      * @return 结果
-     *
      */
     @GetMapping("/list")
     public AjaxResult list(Area area) {
@@ -43,13 +41,11 @@ public class AreaController extends BaseController {
         return AjaxResult.success(list);
     }
 
-
     /**
      * 获取地区列表(懒加载)
      *
      * @param area 查询条件
      * @return 结果
-     *
      */
     @PreAuthorize("@ss.hasPerm('basedata:area:list')")
     @GetMapping("/treeList")
@@ -58,9 +54,9 @@ public class AreaController extends BaseController {
         //懒加载封装hasChildren属性
         for (Area area1 : list) {
             QueryWrapper<Area> areaQueryWrapper = new QueryWrapper<>();
-            areaQueryWrapper.eq("pid",area1.getId());
+            areaQueryWrapper.eq("pid", area1.getId());
             long count = areaService.count(areaQueryWrapper);
-            if(count>0){
+            if (count > 0) {
                 area1.setHasChildren(true);
             }
         }
@@ -114,7 +110,7 @@ public class AreaController extends BaseController {
     @PreAuthorize("@ss.hasPerm('basedata:area:remove')")
     @Log(title = "地区", businessType = BusinessType.DELETE)
     @DeleteMapping("/{ids}")
-        public AjaxResult remove(@PathVariable Long[] ids) {
+    public AjaxResult remove(@PathVariable Long[] ids) {
         return toAjax(areaService.removeByIds(Arrays.asList(ids)));
     }
 }

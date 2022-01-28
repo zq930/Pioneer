@@ -21,7 +21,6 @@ import java.util.Map;
  * @date 2021-08-09 17:47:17
  */
 @Configuration
-@ConditionalOnProperty(value = "xss.enabled", havingValue = "true")
 public class FilterConfig {
 
     @Value("${xss.excludes}")
@@ -31,6 +30,7 @@ public class FilterConfig {
     private String urlPatterns;
 
     @Bean
+    @ConditionalOnProperty(value = "xss.enabled", havingValue = "true")
     public FilterRegistrationBean<Filter> xssFilterRegistration() {
         FilterRegistrationBean<Filter> registration = new FilterRegistrationBean<>();
         registration.setDispatcherTypes(DispatcherType.REQUEST);
@@ -38,7 +38,7 @@ public class FilterConfig {
         registration.addUrlPatterns(urlPatterns.split(StrUtil.COMMA));
         registration.setName("xssFilter");
         registration.setOrder(FilterRegistrationBean.HIGHEST_PRECEDENCE);
-        Map<String, String> initParameters = new HashMap<>(16);
+        Map<String, String> initParameters = new HashMap<>(2);
         initParameters.put("excludes", excludes);
         registration.setInitParameters(initParameters);
         return registration;

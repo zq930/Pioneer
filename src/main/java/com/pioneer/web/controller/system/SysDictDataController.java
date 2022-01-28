@@ -56,7 +56,7 @@ public class SysDictDataController extends BaseController {
      */
     @Log(title = "字典数据", businessType = BusinessType.EXPORT)
     @PreAuthorize("@ss.hasPerm('system:dict:export')")
-    @GetMapping("/export")
+    @PostMapping("/export")
     public AjaxResult export(SysDictData dictData) {
         List<SysDictData> list = dictDataService.selectDictDataList(dictData);
         Map<String, String> headAlias = MapUtil.newHashMap(true);

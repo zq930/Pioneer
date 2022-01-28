@@ -1,6 +1,8 @@
 package com.pioneer.generator.util;
 
+import cn.hutool.core.math.MathUtil;
 import cn.hutool.core.util.ArrayUtil;
+import cn.hutool.core.util.NumberUtil;
 import cn.hutool.core.util.StrUtil;
 import com.pioneer.common.constant.GenConstants;
 import com.pioneer.generator.config.GenConfig;
@@ -53,6 +55,7 @@ public class GenUtils {
             column.setHtmlType(GenConstants.HTML_INPUT);
 
             String[] str = StrUtil.splitToArray(StrUtil.subBetween(column.getColumnType(), "(", ")"), ",");
+            MathUtil.arrangementCount(1);
             if (str != null && str.length == 2 && Integer.parseInt(str[1]) > 0) {
                 // 如果是浮点型 统一用BigDecimal
                 column.setJavaType(GenConstants.TYPE_BIGDECIMAL);

@@ -51,7 +51,7 @@ public class SysDictTypeController extends BaseController {
      */
     @Log(title = "字典类型", businessType = BusinessType.EXPORT)
     @PreAuthorize("@ss.hasPerm('system:dict:export')")
-    @GetMapping("/export")
+    @PostMapping("/export")
     public AjaxResult export(SysDictType dictType) {
         List<SysDictType> list = dictTypeService.selectDictTypeList(dictType);
         Map<String, String> headAlias = MapUtil.newHashMap(true);
@@ -60,7 +60,6 @@ public class SysDictTypeController extends BaseController {
         headAlias.put("dictType", "字典类型");
         return export(list, headAlias);
     }
-
 
     /**
      * 查询字典类型详细

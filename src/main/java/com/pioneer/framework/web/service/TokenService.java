@@ -104,7 +104,7 @@ public class TokenService {
         setUserAgent(loginUser);
         refreshToken(loginUser);
 
-        Map<String, Object> claims = new HashMap<>(16);
+        Map<String, Object> claims = new HashMap<>(2);
         claims.put(Constants.LOGIN_USER_KEY, token);
         return createToken(claims);
     }
