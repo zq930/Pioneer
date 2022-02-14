@@ -3968,6 +3968,9 @@ INSERT INTO `sys_dict_data` VALUES (21, 8, '生成代码', '8', 'sys_oper_type',
 INSERT INTO `sys_dict_data` VALUES (22, 9, '清空数据', '9', 'sys_oper_type', '', 'danger', 'N', '0', 'admin', '2022-01-27 09:43:21', '', NULL, '清空操作');
 INSERT INTO `sys_dict_data` VALUES (23, 1, '成功', '0', 'sys_common_status', '', 'primary', 'N', '0', 'admin', '2022-01-27 09:43:21', '', NULL, '正常状态');
 INSERT INTO `sys_dict_data` VALUES (24, 2, '失败', '1', 'sys_common_status', '', 'danger', 'N', '0', 'admin', '2022-01-27 09:43:21', '', NULL, '停用状态');
+INSERT INTO `sys_dict_data` VALUES (25, 1, '省', '1', 'sys_area_level', '', '', 'N', '0', 'admin', '2022-01-27 09:43:21', '', NULL, '省');
+INSERT INTO `sys_dict_data` VALUES (26, 2, '市', '2', 'sys_area_level', '', '', 'N', '0', 'admin', '2022-01-27 09:43:21', '', NULL, '市');
+INSERT INTO `sys_dict_data` VALUES (27, 3, '县', '3', 'sys_area_level', '', '', 'N', '0', 'admin', '2022-01-27 09:43:21', '', NULL, '县');
 
 -- ----------------------------
 -- Table structure for sys_dict_type
@@ -3998,6 +4001,7 @@ INSERT INTO `sys_dict_type` VALUES (5, '通知类型', 'sys_notice_type', '0', '
 INSERT INTO `sys_dict_type` VALUES (6, '通知状态', 'sys_notice_status', '0', 'admin', '2022-01-27 09:43:21', '', NULL, '通知状态列表');
 INSERT INTO `sys_dict_type` VALUES (7, '操作类型', 'sys_oper_type', '0', 'admin', '2022-01-27 09:43:21', '', NULL, '操作类型列表');
 INSERT INTO `sys_dict_type` VALUES (8, '系统状态', 'sys_common_status', '0', 'admin', '2022-01-27 09:43:21', '', NULL, '登录状态列表');
+INSERT INTO `sys_dict_type` VALUES (9, '地区层级', 'sys_area_level', '0', 'admin', '2022-01-27 09:43:21', '', NULL, '地区层级列表');
 
 -- ----------------------------
 -- Table structure for sys_logininfor
