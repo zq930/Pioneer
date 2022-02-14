@@ -3968,9 +3968,9 @@ INSERT INTO `sys_dict_data` VALUES (21, 8, '生成代码', '8', 'sys_oper_type',
 INSERT INTO `sys_dict_data` VALUES (22, 9, '清空数据', '9', 'sys_oper_type', '', 'danger', 'N', '0', 'admin', '2022-01-27 09:43:21', '', NULL, '清空操作');
 INSERT INTO `sys_dict_data` VALUES (23, 1, '成功', '0', 'sys_common_status', '', 'primary', 'N', '0', 'admin', '2022-01-27 09:43:21', '', NULL, '正常状态');
 INSERT INTO `sys_dict_data` VALUES (24, 2, '失败', '1', 'sys_common_status', '', 'danger', 'N', '0', 'admin', '2022-01-27 09:43:21', '', NULL, '停用状态');
-INSERT INTO `sys_dict_data` VALUES (25, 1, '省', '1', 'sys_area_level', '', '', 'N', '0', 'admin', '2022-01-27 09:43:21', '', NULL, '省');
-INSERT INTO `sys_dict_data` VALUES (26, 2, '市', '2', 'sys_area_level', '', '', 'N', '0', 'admin', '2022-01-27 09:43:21', '', NULL, '市');
-INSERT INTO `sys_dict_data` VALUES (27, 3, '县', '3', 'sys_area_level', '', '', 'N', '0', 'admin', '2022-01-27 09:43:21', '', NULL, '县');
+INSERT INTO `sys_dict_data` VALUES (25, 1, '省', '1', 'sys_area_level', '', NULL, 'N', '0', 'admin', '2022-01-27 09:43:21', '', NULL, '省');
+INSERT INTO `sys_dict_data` VALUES (26, 2, '市', '2', 'sys_area_level', '', NULL, 'N', '0', 'admin', '2022-01-27 09:43:21', '', NULL, '市');
+INSERT INTO `sys_dict_data` VALUES (27, 3, '县', '3', 'sys_area_level', '', NULL, 'N', '0', 'admin', '2022-01-27 09:43:21', '', NULL, '县');
 
 -- ----------------------------
 -- Table structure for sys_dict_type
