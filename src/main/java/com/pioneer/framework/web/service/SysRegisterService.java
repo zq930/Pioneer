@@ -78,6 +78,9 @@ public class SysRegisterService {
      * @param uuid 唯一标识
      */
     public void validateCaptcha(String code, String uuid) {
+        if (uuid == null) {
+            uuid = StrUtil.EMPTY;
+        }
         String verifyKey = Constants.CAPTCHA_CODE_KEY + uuid;
         String captcha = redisCache.getCacheObject(verifyKey);
         redisCache.deleteObject(verifyKey);

@@ -1,5 +1,6 @@
 package com.pioneer.framework.web.service;
 
+import cn.hutool.core.util.StrUtil;
 import com.pioneer.common.constant.Constants;
 import com.pioneer.common.core.domain.LoginUser;
 import com.pioneer.common.core.redis.RedisCache;
@@ -88,6 +89,9 @@ public class SysLoginService {
      * @param uuid     唯一标识
      */
     public void validateCaptcha(String username, String code, String uuid) {
+        if (uuid == null) {
+            uuid = StrUtil.EMPTY;
+        }
         String verifyKey = Constants.CAPTCHA_CODE_KEY + uuid;
         String captcha = redisCache.getCacheObject(verifyKey);
         redisCache.deleteObject(verifyKey);
