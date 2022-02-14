@@ -43,6 +43,21 @@ public class BaseController {
     public static final String ORDER_BY = "orderByColumn";
 
     /**
+     * 排序列
+     */
+    public static final String IS_ASC = "isAsc";
+
+    /**
+     * 排序类型：ASC
+     */
+    public static final String ASC = "ascending";
+
+    /**
+     * 排序类型：DESC
+     */
+    public static final String DESC = "descending";
+
+    /**
      * 设置请求分页数据
      */
     protected boolean startPage() {
@@ -58,6 +73,19 @@ public class BaseController {
         // 排序字段
         String orderBy = request.getParameter(ORDER_BY);
         if (StrUtil.isNotBlank(orderBy)) {
+            // 驼峰转下划线
+            orderBy = StrUtil.toUnderlineCase(orderBy);
+            // 排序类型
+            String isAsc = request.getParameter(IS_ASC);
+            if (StrUtil.isNotEmpty(isAsc)) {
+                // 兼容前端排序类型
+                if (ASC.equals(isAsc)) {
+                    isAsc = "asc";
+                } else if (DESC.equals(isAsc)) {
+                    isAsc = "desc";
+                }
+                orderBy += " " + isAsc;
+            }
             PageHelper.orderBy(orderBy);
         }
         return true;
