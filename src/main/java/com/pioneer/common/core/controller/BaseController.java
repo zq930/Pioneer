@@ -61,15 +61,7 @@ public class BaseController {
      * 设置请求分页数据
      */
     protected boolean startPage() {
-        // 请求参数同时含有pageNum和pageSize时分页才会生效
         HttpServletRequest request = ServletUtils.getRequest();
-        Integer pageNum = Convert.toInt(request.getParameter(PAGE_NUM));
-        Integer pageSize = Convert.toInt(request.getParameter(PAGE_SIZE));
-        if (ObjectUtil.isNull(pageNum) || ObjectUtil.isNull(pageSize)) {
-            return false;
-        }
-        // 调用PageHelper分页插件功能
-        PageHelper.startPage(pageNum, pageSize);
         // 排序字段
         String orderBy = request.getParameter(ORDER_BY);
         if (StrUtil.isNotBlank(orderBy)) {
@@ -88,6 +80,14 @@ public class BaseController {
             }
             PageHelper.orderBy(orderBy);
         }
+        // 请求参数同时含有pageNum和pageSize时分页才会生效
+        Integer pageNum = Convert.toInt(request.getParameter(PAGE_NUM));
+        Integer pageSize = Convert.toInt(request.getParameter(PAGE_SIZE));
+        if (ObjectUtil.isNull(pageNum) || ObjectUtil.isNull(pageSize)) {
+            return false;
+        }
+        // 调用PageHelper分页插件功能
+        PageHelper.startPage(pageNum, pageSize);
         return true;
     }
 
