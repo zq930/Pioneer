@@ -22,13 +22,21 @@ public class AddressUtils {
     public static final String UNKNOWN = "未知";
 
     public static String getAddressByIp(String ip) {
-        if (!Validator.isIpv4(ip) && !Validator.isIpv6(ip)) {
-            return UNKNOWN;
-        }
-        if (NetUtil.isInnerIP(ip)) {
-            return "内网IP";
+        // 判断是否IPV4
+        if (Validator.isIpv4(ip)) {
+            // 判断内外网
+            if (NetUtil.isInnerIP(ip)) {
+                return "内网IP";
+            }
+        } else {
+            // 判断是否IPV6
+            if (!Validator.isIpv6(ip)) {
+                // 未知类型
+                return UNKNOWN;
+            }
         }
         try {
+            // 根据IP查询实际地理位置
             String rspStr = HttpUtil.get(IP_URL + ip);
             if (StrUtil.isEmpty(rspStr)) {
                 log.error("获取地理位置异常 {}", ip);
