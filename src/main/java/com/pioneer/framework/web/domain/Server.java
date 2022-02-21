@@ -104,6 +104,7 @@ public class Server {
         long time = ManagementFactory.getRuntimeMXBean().getStartTime();
         jvm.setStartTime(DateUtil.formatDateTime(DateUtil.date(time)));
         jvm.setRunTime(DateUtil.formatBetween(DateUtil.date(), DateUtil.date(time)));
+        jvm.setInputArgs(ManagementFactory.getRuntimeMXBean().getInputArguments().toString());
     }
 
     /**

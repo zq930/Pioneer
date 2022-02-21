@@ -62,4 +62,9 @@ public class Jvm {
      * JDK运行时间
      */
     private String runTime;
+
+    /**
+     * 运行参数
+     */
+    private String inputArgs;
 }
