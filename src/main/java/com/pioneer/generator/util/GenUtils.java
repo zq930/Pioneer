@@ -40,6 +40,7 @@ public class GenUtils {
         column.setJavaField(StrUtil.toCamelCase(columnName));
         // 设置默认类型
         column.setJavaType(GenConstants.TYPE_STRING);
+        column.setQueryType(GenConstants.QUERY_EQ);
 
         if (ArrayUtil.contains(GenConstants.COLUMNTYPE_STR, dataType) || ArrayUtil.contains(GenConstants.COLUMNTYPE_TEXT, dataType)) {
             // 字符串长度超过500设置为文本域

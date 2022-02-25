@@ -117,6 +117,11 @@ public interface GenConstants {
     String HTML_RADIO = "radio";
 
     /**
+     * 复选框
+     */
+    String HTML_CHECKBOX = "checkbox";
+
+    /**
      * 日期控件
      */
     String HTML_DATETIME = "datetime";
@@ -165,6 +170,11 @@ public interface GenConstants {
      * 模糊查询
      */
     String QUERY_LIKE = "LIKE";
+
+    /**
+     * 相等查询
+     */
+    String QUERY_EQ = "EQ";
 
     /**
      * 需要

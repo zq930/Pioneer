@@ -16,7 +16,7 @@ public class GenConfig {
     /**
      * 作者
      */
-    public static String author = "hlm";
+    public static String author = "author";
 
     /**
      * 生成包路径

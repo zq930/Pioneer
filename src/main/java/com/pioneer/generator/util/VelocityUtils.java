@@ -10,10 +10,7 @@ import com.pioneer.generator.domain.GenTable;
 import com.pioneer.generator.domain.GenTableColumn;
 import org.apache.velocity.VelocityContext;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
+import java.util.*;
 
 /**
  * 模板处理工具类
@@ -68,6 +65,7 @@ public class VelocityUtils {
         velocityContext.put("permissionPrefix", getPermissionPrefix(moduleName, businessName));
         velocityContext.put("columns", genTable.getColumns());
         velocityContext.put("table", genTable);
+        velocityContext.put("dicts", getDicts(genTable));
         setMenuVelocityContext(velocityContext, genTable);
         if (GenConstants.TPL_TREE.equals(tplCategory)) {
             setTreeVelocityContext(velocityContext, genTable);
@@ -224,6 +222,39 @@ public class VelocityUtils {
             }
         }
         return importList;
+    }
+
+    /**
+     * 根据列类型获取字典组
+     *
+     * @param genTable 业务表对象
+     * @return 返回字典组
+     */
+    public static String getDicts(GenTable genTable) {
+        List<GenTableColumn> columns = genTable.getColumns();
+        Set<String> dicts = new HashSet<>();
+        addDicts(dicts, columns);
+        if (ObjectUtil.isNotNull(genTable.getSubTable())) {
+            List<GenTableColumn> subColumns = genTable.getSubTable().getColumns();
+            addDicts(dicts, subColumns);
+        }
+        return StrUtil.join(StrUtil.COMMA, dicts);
+    }
+
+    /**
+     * 添加字典列表
+     *
+     * @param dicts   字典列表
+     * @param columns 列集合
+     */
+    public static void addDicts(Set<String> dicts, List<GenTableColumn> columns) {
+        for (GenTableColumn column : columns) {
+            if (!column.isSuperColumn() && StrUtil.isNotEmpty(column.getDictType()) && StrUtil.equalsAny(
+                    column.getHtmlType(),
+                    new String[]{GenConstants.HTML_SELECT, GenConstants.HTML_RADIO, GenConstants.HTML_CHECKBOX})) {
+                dicts.add("'" + column.getDictType() + "'");
+            }
+        }
     }
 
     /**
