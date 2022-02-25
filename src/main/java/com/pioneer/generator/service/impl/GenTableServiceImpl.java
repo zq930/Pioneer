@@ -271,9 +271,11 @@ public class GenTableServiceImpl extends ServiceImpl<GenTableMapper, GenTable> i
                     column.setDictType(prevColumn.getDictType());
                     column.setQueryType(prevColumn.getQueryType());
                 }
-                if (StrUtil.isNotEmpty(prevColumn.getIsRequired()) && !column.isPk()
-                        && (column.isInsert() || column.isEdit())
-                        && ((column.isUsableColumn()) || (!column.isSuperColumn()))) {
+                // 判断是否新增/修改
+                boolean isEdit = column.isInsert() || column.isEdit();
+                // 判断是否忽略及父属性
+                boolean isColumn = column.isUsableColumn() || !column.isSuperColumn();
+                if (StrUtil.isNotEmpty(prevColumn.getIsRequired()) && !column.isPk() && isEdit && isColumn) {
                     // 如果是(新增/修改&非主键/非忽略及父属性)，继续保留必填/显示类型选项
                     column.setIsRequired(prevColumn.getIsRequired());
                     column.setHtmlType(prevColumn.getHtmlType());
