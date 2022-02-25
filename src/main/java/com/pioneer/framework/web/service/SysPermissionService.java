@@ -51,7 +51,7 @@ public class SysPermissionService {
         Set<String> perms = new HashSet<>();
         // 管理员拥有所有权限
         if (user.isAdmin()) {
-            perms.add("*:*:*");
+            perms.add(PermissionService.ALL_PERMISSION);
         } else {
             perms.addAll(menuService.selectMenuPermsByUserId(user.getUserId()));
         }
