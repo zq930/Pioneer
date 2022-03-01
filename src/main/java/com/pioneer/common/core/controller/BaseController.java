@@ -1,6 +1,7 @@
 package com.pioneer.common.core.controller;
 
 import cn.hutool.core.convert.Convert;
+import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
@@ -12,6 +13,7 @@ import com.github.pagehelper.PageInfo;
 import com.pioneer.common.config.CommonConfig;
 import com.pioneer.common.core.domain.AjaxResult;
 import com.pioneer.common.core.domain.LoginUser;
+import com.pioneer.common.exception.CustomException;
 import com.pioneer.common.utils.SecurityUtils;
 import com.pioneer.common.utils.ServletUtils;
 import org.apache.poi.ss.usermodel.Workbook;
@@ -185,7 +187,7 @@ public class BaseController {
      * @param list      导出结果集
      * @param headAlias 导出表头
      */
-    protected AjaxResult export(Collection<?> list, Map<String, String> headAlias) {
+    protected void export(Collection<?> list, Map<String, String> headAlias) {
         try {
             String filename = IdUtil.getSnowflake().nextId() + ".xlsx";
             String filePath = CommonConfig.getDownloadPath() + filename;
@@ -196,9 +198,11 @@ public class BaseController {
             // 前端修改了下载方法，需要返回输出流
             Workbook wb = WorkbookUtil.createBook(filePath);
             wb.write(ServletUtils.getResponse().getOutputStream());
-            return AjaxResult.success("导出成功");
+            wb.close();
+            // 导出后删除文件
+            FileUtil.del(filePath);
         } catch (Exception e) {
-            return AjaxResult.error("导出失败");
+            throw new CustomException("导出失败");
         }
     }
 }

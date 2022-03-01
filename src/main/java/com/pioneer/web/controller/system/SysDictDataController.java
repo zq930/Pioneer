@@ -57,7 +57,7 @@ public class SysDictDataController extends BaseController {
     @Log(title = "字典数据", businessType = BusinessType.EXPORT)
     @PreAuthorize("@ss.hasPerm('system:dict:export')")
     @PostMapping("/export")
-    public AjaxResult export(SysDictData dictData) {
+    public void export(SysDictData dictData) {
         List<SysDictData> list = dictDataService.selectDictDataList(dictData);
         Map<String, String> headAlias = MapUtil.newHashMap(true);
         headAlias.put("dictCode", "字典编码");
@@ -65,7 +65,7 @@ public class SysDictDataController extends BaseController {
         headAlias.put("dictLabel", "字典标签");
         headAlias.put("dictValue", "字典键值");
         headAlias.put("dictType", "字典类型");
-        return export(list, headAlias);
+        export(list, headAlias);
     }
 
     /**

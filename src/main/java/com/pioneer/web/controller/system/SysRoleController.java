@@ -68,14 +68,14 @@ public class SysRoleController extends BaseController {
     @Log(title = "角色管理", businessType = BusinessType.EXPORT)
     @PreAuthorize("@ss.hasPerm('system:role:export')")
     @PostMapping("/export")
-    public AjaxResult export(SysRole role) {
+    public void export(SysRole role) {
         List<SysRole> list = roleService.selectRoleList(role);
         Map<String, String> headAlias = MapUtil.newHashMap(true);
         headAlias.put("roleId", "角色ID");
         headAlias.put("roleName", "角色名称");
         headAlias.put("roleKey", "角色权限");
         headAlias.put("roleSort", "角色排序");
-        return export(list, headAlias);
+        export(list, headAlias);
     }
 
     /**

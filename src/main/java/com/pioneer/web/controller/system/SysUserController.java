@@ -68,7 +68,7 @@ public class SysUserController extends BaseController {
     @Log(title = "用户管理", businessType = BusinessType.EXPORT)
     @PreAuthorize("@ss.hasPerm('system:user:export')")
     @PostMapping("/export")
-    public AjaxResult export(SysUser user) {
+    public void export(SysUser user) {
         List<SysUser> list = userService.selectUserList(user);
         Map<String, String> headAlias = MapUtil.newHashMap(true);
         headAlias.put("userId", "用户ID");
@@ -79,7 +79,7 @@ public class SysUserController extends BaseController {
         headAlias.put("sex", "用户性别");
         headAlias.put("loginIp", "最后登录IP");
         headAlias.put("loginDate", "最后登录时间");
-        return export(list, headAlias);
+        export(list, headAlias);
     }
 
     /**

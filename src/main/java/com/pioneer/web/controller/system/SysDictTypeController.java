@@ -52,13 +52,13 @@ public class SysDictTypeController extends BaseController {
     @Log(title = "字典类型", businessType = BusinessType.EXPORT)
     @PreAuthorize("@ss.hasPerm('system:dict:export')")
     @PostMapping("/export")
-    public AjaxResult export(SysDictType dictType) {
+    public void export(SysDictType dictType) {
         List<SysDictType> list = dictTypeService.selectDictTypeList(dictType);
         Map<String, String> headAlias = MapUtil.newHashMap(true);
         headAlias.put("dictId", "字典类型ID");
         headAlias.put("dictName", "字典名称");
         headAlias.put("dictType", "字典类型");
-        return export(list, headAlias);
+        export(list, headAlias);
     }
 
     /**

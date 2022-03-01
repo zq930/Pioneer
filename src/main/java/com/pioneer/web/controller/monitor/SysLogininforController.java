@@ -51,7 +51,7 @@ public class SysLogininforController extends BaseController {
     @Log(title = "登录日志", businessType = BusinessType.EXPORT)
     @PreAuthorize("@ss.hasPerm('monitor:logininfor:export')")
     @PostMapping("/export")
-    public AjaxResult export(SysLogininfor logininfor) {
+    public void export(SysLogininfor logininfor) {
         List<SysLogininfor> list = logininforService.selectLogininforList(logininfor);
         Map<String, String> headAlias = MapUtil.newHashMap(true);
         headAlias.put("userName", "用户账号");
@@ -62,7 +62,7 @@ public class SysLogininforController extends BaseController {
         headAlias.put("os", "操作系统");
         headAlias.put("msg", "提示消息");
         headAlias.put("loginTime", "访问时间");
-        return export(list, headAlias);
+        export(list, headAlias);
     }
 
     /**

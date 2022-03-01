@@ -52,14 +52,14 @@ public class SysPostController extends BaseController {
     @Log(title = "岗位管理", businessType = BusinessType.EXPORT)
     @PreAuthorize("@ss.hasPerm('system:post:export')")
     @PostMapping("/export")
-    public AjaxResult export(SysPost post) {
+    public void export(SysPost post) {
         List<SysPost> list = postService.selectPostList(post);
         Map<String, String> headAlias = MapUtil.newHashMap(true);
         headAlias.put("postId", "岗位ID");
         headAlias.put("postCode", "岗位编码");
         headAlias.put("postName", "岗位名称");
         headAlias.put("postSort", "岗位排序");
-        return export(list, headAlias);
+        export(list, headAlias);
     }
 
     /**

@@ -51,7 +51,7 @@ public class SysOperlogController extends BaseController {
     @Log(title = "操作日志", businessType = BusinessType.EXPORT)
     @PreAuthorize("@ss.hasPerm('monitor:operlog:export')")
     @PostMapping("/export")
-    public AjaxResult export(SysOperLog operLog) {
+    public void export(SysOperLog operLog) {
         List<SysOperLog> list = operLogService.selectOperLogList(operLog);
         Map<String, String> headAlias = MapUtil.newHashMap(true);
         headAlias.put("title", "操作模块");
@@ -68,7 +68,7 @@ public class SysOperlogController extends BaseController {
         headAlias.put("jsonResult", "返回参数");
         headAlias.put("errorMsg", "错误消息");
         headAlias.put("operTime", "操作时间");
-        return export(list, headAlias);
+        export(list, headAlias);
     }
 
     /**

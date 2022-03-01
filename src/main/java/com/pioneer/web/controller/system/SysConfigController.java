@@ -53,14 +53,14 @@ public class SysConfigController extends BaseController {
     @Log(title = "参数管理", businessType = BusinessType.EXPORT)
     @PreAuthorize("@ss.hasPerm('system:config:export')")
     @PostMapping("/export")
-    public AjaxResult export(SysConfig config) {
+    public void export(SysConfig config) {
         List<SysConfig> list = configService.selectConfigList(config);
         Map<String, String> headAlias = MapUtil.newHashMap(true);
         headAlias.put("configId", "参数ID");
         headAlias.put("configName", "参数名称");
         headAlias.put("configKey", "参数键值");
         headAlias.put("configValue", "参数名称");
-        return export(list, headAlias);
+        export(list, headAlias);
     }
 
     /**
