@@ -6,6 +6,7 @@ import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.poi.excel.ExcelUtil;
 import cn.hutool.poi.excel.ExcelWriter;
+import cn.hutool.poi.excel.WorkbookUtil;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.pioneer.common.config.CommonConfig;
@@ -13,6 +14,7 @@ import com.pioneer.common.core.domain.AjaxResult;
 import com.pioneer.common.core.domain.LoginUser;
 import com.pioneer.common.utils.SecurityUtils;
 import com.pioneer.common.utils.ServletUtils;
+import org.apache.poi.ss.usermodel.Workbook;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Collection;
@@ -184,11 +186,19 @@ public class BaseController {
      * @param headAlias 导出表头
      */
     protected AjaxResult export(Collection<?> list, Map<String, String> headAlias) {
-        String filename = IdUtil.getSnowflake().nextId() + ".xlsx";
-        ExcelWriter writer = ExcelUtil.getWriter(CommonConfig.getDownloadPath() + filename);
-        writer.setHeaderAlias(headAlias);
-        writer.write(list, true);
-        writer.close();
-        return AjaxResult.success(filename);
+        try {
+            String filename = IdUtil.getSnowflake().nextId() + ".xlsx";
+            String filePath = CommonConfig.getDownloadPath() + filename;
+            ExcelWriter writer = ExcelUtil.getWriter(filePath);
+            writer.setHeaderAlias(headAlias);
+            writer.write(list, true);
+            writer.close();
+            // 前端修改了下载方法，需要返回输出流
+            Workbook wb = WorkbookUtil.createBook(filePath);
+            wb.write(ServletUtils.getResponse().getOutputStream());
+            return AjaxResult.success("导出成功");
+        } catch (Exception e) {
+            return AjaxResult.error("导出失败");
+        }
     }
 }
