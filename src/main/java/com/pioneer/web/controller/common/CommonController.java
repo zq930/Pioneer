@@ -1,7 +1,6 @@
 package com.pioneer.web.controller.common;
 
 import cn.hutool.core.io.FileUtil;
-import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.core.util.URLUtil;
 import com.pioneer.common.config.CommonConfig;
@@ -67,10 +66,8 @@ public class CommonController {
         try {
             // 上传文件路径
             String filePath = CommonConfig.getUploadPath();
-            // 获取后缀名
-            String suffix = StrUtil.DOT + FileUtil.getSuffix(file.getOriginalFilename());
             // 重命名
-            String fileName = IdUtil.getSnowflake().nextId() + suffix;
+            String fileName = exist(filePath, file.getOriginalFilename());
             // 上传
             FileUtil.writeFromStream(file.getInputStream(), filePath + fileName);
             // 返回文件访问路径
@@ -80,6 +77,7 @@ public class CommonController {
             ajax.put("url", url);
             return ajax;
         } catch (Exception e) {
+            log.error("上传文件失败", e);
             return AjaxResult.error(e.getMessage());
         }
     }
@@ -98,7 +96,7 @@ public class CommonController {
             // 数据库资源地址
             String downloadPath = localPath + StrUtil.subAfter(resource, Constants.RESOURCE_PREFIX, false);
             // 下载名称
-            String downloadName = StrUtil.subAfter(downloadPath, "/", true);
+            String downloadName = StrUtil.subAfter(downloadPath, StrUtil.SLASH, true);
             // 设置响应头
             setAttachmentResponseHeader(response, downloadName);
             // 下载
@@ -120,5 +118,20 @@ public class CommonController {
         String contentDispositionValue = "attachment; filename=" + percentEncodedFileName +
                 ";filename*=utf-8''" + percentEncodedFileName;
         response.setHeader("Content-Disposition", contentDispositionValue);
+    }
+
+    /**
+     * 判断指定路径下的文件是否存在：存在则自动重复名
+     *
+     * @param filePath 文件路径
+     * @param fileName 文件名
+     * @return 新文件名
+     */
+    private String exist(String filePath, String fileName) {
+        if (FileUtil.exist(filePath + fileName)) {
+            fileName += "(1)";
+            return exist(filePath, fileName);
+        }
+        return fileName;
     }
 }

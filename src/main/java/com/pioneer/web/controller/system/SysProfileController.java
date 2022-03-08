@@ -2,7 +2,6 @@ package com.pioneer.web.controller.system;
 
 import cn.hutool.core.io.FileTypeUtil;
 import cn.hutool.core.io.FileUtil;
-import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.StrUtil;
 import com.pioneer.common.annotation.Log;
 import com.pioneer.common.config.CommonConfig;
@@ -132,7 +131,7 @@ public class SysProfileController extends BaseController {
             // 获取后缀名
             String suffix = StrUtil.DOT + FileTypeUtil.getType(file.getInputStream());
             // 重命名文件
-            String fileName = IdUtil.getSnowflake().nextId() + suffix;
+            String fileName = SecurityUtils.getUserId() + suffix;
             // 写入磁盘
             FileUtil.writeFromStream(file.getInputStream(), filePath + fileName);
             // 获取相对资源路径
