@@ -28,6 +28,7 @@ public class ThreadPoolConfig {
     @Bean(name = "threadPoolTaskExecutor")
     public ThreadPoolTaskExecutor threadPoolTaskExecutor() {
         ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
+        // 核心线程数
         executor.setCorePoolSize(corePoolSize);
         // 最大可创建的线程数
         executor.setMaxPoolSize(200);
@@ -46,7 +47,8 @@ public class ThreadPoolConfig {
     @Bean(name = "scheduledExecutorService")
     protected ScheduledExecutorService scheduledExecutorService() {
         return new ScheduledThreadPoolExecutor(corePoolSize,
-                ThreadUtil.createThreadFactoryBuilder().setNamePrefix("schedule-pool-%d").setDaemon(true).build()) {
+                ThreadUtil.createThreadFactoryBuilder().setNamePrefix("schedule-pool-%d").setDaemon(true).build(),
+                new ThreadPoolExecutor.CallerRunsPolicy()) {
             @Override
             protected void afterExecute(Runnable r, Throwable t) {
                 super.afterExecute(r, t);
