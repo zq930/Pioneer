@@ -1,6 +1,6 @@
 package com.pioneer.common.core.domain;
 
-import com.alibaba.fastjson.annotation.JSONField;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.pioneer.web.system.domain.SysUser;
 import lombok.Getter;
 import lombok.Setter;
@@ -92,7 +92,7 @@ public class LoginUser implements UserDetails {
         this.permissions = permissions;
     }
 
-    @JSONField(serialize = false)
+    @JsonIgnore
     @Override
     public String getPassword() {
         return user.getPassword();
@@ -106,7 +106,7 @@ public class LoginUser implements UserDetails {
     /**
      * 账户是否未过期,过期无法验证
      */
-    @JSONField(serialize = false)
+    @JsonIgnore
     @Override
     public boolean isAccountNonExpired() {
         return true;
@@ -115,7 +115,7 @@ public class LoginUser implements UserDetails {
     /**
      * 指定用户是否解锁,锁定的用户无法进行身份验证
      */
-    @JSONField(serialize = false)
+    @JsonIgnore
     @Override
     public boolean isAccountNonLocked() {
         return true;
@@ -124,7 +124,7 @@ public class LoginUser implements UserDetails {
     /**
      * 指示是否已过期的用户的凭据(密码),过期的凭据防止认证
      */
-    @JSONField(serialize = false)
+    @JsonIgnore
     @Override
     public boolean isCredentialsNonExpired() {
         return true;
@@ -133,7 +133,7 @@ public class LoginUser implements UserDetails {
     /**
      * 是否可用 ,禁用的用户不能身份验证
      */
-    @JSONField(serialize = false)
+    @JsonIgnore
     @Override
     public boolean isEnabled() {
         return true;

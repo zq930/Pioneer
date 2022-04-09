@@ -3,7 +3,8 @@ package com.pioneer.generator.util;
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
-import com.alibaba.fastjson.JSONObject;
+import cn.hutool.json.JSONObject;
+import cn.hutool.json.JSONUtil;
 import com.pioneer.common.constant.GenConstants;
 import com.pioneer.common.constant.VmConstant;
 import com.pioneer.generator.domain.GenTable;
@@ -78,14 +79,14 @@ public class VelocityUtils {
 
     public static void setMenuVelocityContext(VelocityContext context, GenTable genTable) {
         String options = genTable.getOptions();
-        JSONObject paramsObj = JSONObject.parseObject(options);
+        JSONObject paramsObj = JSONUtil.parseObj(options);
         String parentMenuId = getParentMenuId(paramsObj);
         context.put("parentMenuId", parentMenuId);
     }
 
     public static void setTreeVelocityContext(VelocityContext context, GenTable genTable) {
         String options = genTable.getOptions();
-        JSONObject paramsObj = JSONObject.parseObject(options);
+        JSONObject paramsObj = JSONUtil.parseObj(options);
         String treeCode = getTreeCode(paramsObj);
         String treeParentCode = getTreeParentCode(paramsObj);
         String treeName = getTreeName(paramsObj);
@@ -95,10 +96,10 @@ public class VelocityUtils {
         context.put("treeName", treeName);
         context.put("expandColumn", getExpandColumn(genTable));
         if (paramsObj.containsKey(GenConstants.TREE_PARENT_CODE)) {
-            context.put("tree_parent_code", paramsObj.getString(GenConstants.TREE_PARENT_CODE));
+            context.put("tree_parent_code", paramsObj.getStr(GenConstants.TREE_PARENT_CODE));
         }
         if (paramsObj.containsKey(GenConstants.TREE_NAME)) {
-            context.put("tree_name", paramsObj.getString(GenConstants.TREE_NAME));
+            context.put("tree_name", paramsObj.getStr(GenConstants.TREE_NAME));
         }
     }
 
@@ -276,8 +277,8 @@ public class VelocityUtils {
      */
     public static String getParentMenuId(JSONObject paramsObj) {
         if (ObjectUtil.isNotEmpty(paramsObj) && paramsObj.containsKey(GenConstants.PARENT_MENU_ID)
-                && StrUtil.isNotEmpty(paramsObj.getString(GenConstants.PARENT_MENU_ID))) {
-            return paramsObj.getString(GenConstants.PARENT_MENU_ID);
+                && StrUtil.isNotEmpty(paramsObj.getStr(GenConstants.PARENT_MENU_ID))) {
+            return paramsObj.getStr(GenConstants.PARENT_MENU_ID);
         }
         return DEFAULT_PARENT_MENU_ID;
     }
@@ -290,7 +291,7 @@ public class VelocityUtils {
      */
     public static String getTreeCode(JSONObject paramsObj) {
         if (paramsObj.containsKey(GenConstants.TREE_CODE)) {
-            return StrUtil.toCamelCase(paramsObj.getString(GenConstants.TREE_CODE));
+            return StrUtil.toCamelCase(paramsObj.getStr(GenConstants.TREE_CODE));
         }
         return StrUtil.EMPTY;
     }
@@ -303,7 +304,7 @@ public class VelocityUtils {
      */
     public static String getTreeParentCode(JSONObject paramsObj) {
         if (paramsObj.containsKey(GenConstants.TREE_PARENT_CODE)) {
-            return StrUtil.toCamelCase(paramsObj.getString(GenConstants.TREE_PARENT_CODE));
+            return StrUtil.toCamelCase(paramsObj.getStr(GenConstants.TREE_PARENT_CODE));
         }
         return StrUtil.EMPTY;
     }
@@ -316,7 +317,7 @@ public class VelocityUtils {
      */
     public static String getTreeName(JSONObject paramsObj) {
         if (paramsObj.containsKey(GenConstants.TREE_NAME)) {
-            return StrUtil.toCamelCase(paramsObj.getString(GenConstants.TREE_NAME));
+            return StrUtil.toCamelCase(paramsObj.getStr(GenConstants.TREE_NAME));
         }
         return StrUtil.EMPTY;
     }
@@ -329,8 +330,8 @@ public class VelocityUtils {
      */
     public static int getExpandColumn(GenTable genTable) {
         String options = genTable.getOptions();
-        JSONObject paramsObj = JSONObject.parseObject(options);
-        String treeName = paramsObj.getString(GenConstants.TREE_NAME);
+        JSONObject paramsObj = JSONUtil.parseObj(options);
+        String treeName = paramsObj.getStr(GenConstants.TREE_NAME);
         int num = 0;
         for (GenTableColumn column : genTable.getColumns()) {
             if (column.isList()) {

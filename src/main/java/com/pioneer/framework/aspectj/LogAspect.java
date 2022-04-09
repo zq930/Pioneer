@@ -3,7 +3,7 @@ package com.pioneer.framework.aspectj;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.http.Method;
-import com.alibaba.fastjson.JSON;
+import cn.hutool.json.JSONUtil;
 import com.pioneer.common.annotation.Log;
 import com.pioneer.common.core.domain.LoginUser;
 import com.pioneer.common.enums.BusinessStatus;
@@ -118,7 +118,7 @@ public class LogAspect {
         }
         // 是否需要保存response，参数和值
         if (log.isSaveResponseData() && ObjectUtil.isNotNull(jsonResult)) {
-            operLog.setJsonResult(StrUtil.sub(JSON.toJSONString(jsonResult), 0, 2000));
+            operLog.setJsonResult(StrUtil.sub(JSONUtil.toJsonStr(jsonResult), 0, 2000));
         }
     }
 
@@ -146,7 +146,7 @@ public class LogAspect {
         if (paramsArray != null && paramsArray.length > 0) {
             for (Object o : paramsArray) {
                 if (ObjectUtil.isNotNull(o) && !isFilterObject(o)) {
-                    Object jsonObj = JSON.toJSON(o);
+                    Object jsonObj = JSONUtil.toJsonStr(o);
                     params.append(jsonObj.toString()).append(StrUtil.SPACE);
                 }
             }
