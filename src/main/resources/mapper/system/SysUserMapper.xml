@@ -29,6 +29,7 @@
         <id property="deptId" column="dept_id"/>
         <result property="parentId" column="parent_id"/>
         <result property="deptName" column="dept_name"/>
+        <result property="ancestors" column="ancestors"/>
         <result property="orderNum" column="order_num"/>
         <result property="leader" column="leader"/>
         <result property="status" column="dept_status"/>
@@ -62,6 +63,7 @@
                u.remark,
                d.dept_id,
                d.parent_id,
+               d.ancestors,
                d.dept_name,
                d.order_num,
                d.leader,
@@ -159,22 +161,19 @@
     <select id="checkUserNameUnique" parameterType="String" resultType="int">
         select count(1)
         from sys_user
-        where user_name = #{userName}
-        limit 1
+        where user_name = #{userName} limit 1
     </select>
 
     <select id="checkPhoneUnique" parameterType="String" resultMap="SysUserResult">
         select user_id, phone_number
         from sys_user
-        where phone_number = #{phoneNumber}
-        limit 1
+        where phone_number = #{phoneNumber} limit 1
     </select>
 
     <select id="checkEmailUnique" parameterType="String" resultMap="SysUserResult">
         select user_id, email
         from sys_user
-        where email = #{email}
-        limit 1
+        where email = #{email} limit 1
     </select>
 
     <insert id="insertUser" parameterType="SysUser" useGeneratedKeys="true" keyProperty="userId">

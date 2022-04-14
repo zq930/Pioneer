@@ -354,7 +354,7 @@ function getList() {
 }
 
 /** 查询${functionName}下拉树结构 */
-async function getTreeselect() {
+async function getTreeSelect() {
   await list${BusinessName}().then(response => {
     ${businessName}Options.value = [];
     const data = { ${treeCode}: 0, ${treeName}: '顶级节点', children: [] };
@@ -362,7 +362,7 @@ async function getTreeselect() {
     ${businessName}Options.value.push(data);
   });
 }
-	
+
 // 取消按钮
 function cancel() {
   open.value = false;
@@ -406,7 +406,7 @@ function resetQuery() {
 /** 新增按钮操作 */
 async function handleAdd(row) {
   reset();
-  await getTreeselect();
+  await getTreeSelect();
   if (row != null && row.${treeCode}) {
     form.value.${treeParentCode} = row.${treeCode};
   } else {
@@ -428,7 +428,7 @@ function toggleExpandAll() {
 /** 修改按钮操作 */
 async function handleUpdate(row) {
   reset();
-  await getTreeselect();
+  await getTreeSelect();
   if (row != null) {
     form.value.${treeParentCode} = row.${treeCode};
   }
