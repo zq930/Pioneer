@@ -63,7 +63,6 @@ public class SysUserController extends BaseController {
      * 导出用户信息
      *
      * @param user 查询条件
-     * @return 结果
      */
     @Log(title = "用户管理", businessType = BusinessType.EXPORT)
     @PreAuthorize("@ss.hasPerm('system:user:export')")

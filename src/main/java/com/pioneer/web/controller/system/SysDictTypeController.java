@@ -47,7 +47,6 @@ public class SysDictTypeController extends BaseController {
      * 导出字典类型列表
      *
      * @param dictType 查询条件
-     * @return 结果
      */
     @Log(title = "字典类型", businessType = BusinessType.EXPORT)
     @PreAuthorize("@ss.hasPerm('system:dict:export')")

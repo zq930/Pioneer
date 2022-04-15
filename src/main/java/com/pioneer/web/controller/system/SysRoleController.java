@@ -63,7 +63,6 @@ public class SysRoleController extends BaseController {
      * 导出角色管理
      *
      * @param role 查询条件
-     * @return 结果
      */
     @Log(title = "角色管理", businessType = BusinessType.EXPORT)
     @PreAuthorize("@ss.hasPerm('system:role:export')")

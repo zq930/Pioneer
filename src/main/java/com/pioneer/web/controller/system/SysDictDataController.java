@@ -52,7 +52,6 @@ public class SysDictDataController extends BaseController {
      * 导出字典数据
      *
      * @param dictData 查询条件
-     * @return 结果
      */
     @Log(title = "字典数据", businessType = BusinessType.EXPORT)
     @PreAuthorize("@ss.hasPerm('system:dict:export')")

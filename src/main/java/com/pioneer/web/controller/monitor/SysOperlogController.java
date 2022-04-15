@@ -46,7 +46,6 @@ public class SysOperlogController extends BaseController {
      * 导出操作日志
      *
      * @param operLog 查询条件
-     * @return 结果
      */
     @Log(title = "操作日志", businessType = BusinessType.EXPORT)
     @PreAuthorize("@ss.hasPerm('monitor:operlog:export')")

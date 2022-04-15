@@ -47,7 +47,6 @@ public class SysPostController extends BaseController {
      * 导出岗位信息
      *
      * @param post 查询条件
-     * @return 结果
      */
     @Log(title = "岗位管理", businessType = BusinessType.EXPORT)
     @PreAuthorize("@ss.hasPerm('system:post:export')")

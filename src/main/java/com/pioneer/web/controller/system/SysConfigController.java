@@ -48,7 +48,6 @@ public class SysConfigController extends BaseController {
      * 导出参数配置
      *
      * @param config 查询条件
-     * @return 结果
      */
     @Log(title = "参数管理", businessType = BusinessType.EXPORT)
     @PreAuthorize("@ss.hasPerm('system:config:export')")

@@ -46,7 +46,6 @@ public class SysLogininforController extends BaseController {
      * 导出登录日志
      *
      * @param logininfor 查询条件
-     * @return 结果
      */
     @Log(title = "登录日志", businessType = BusinessType.EXPORT)
     @PreAuthorize("@ss.hasPerm('monitor:logininfor:export')")
