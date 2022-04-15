@@ -7,6 +7,7 @@ import cn.hutool.core.util.StrUtil;
 import cn.hutool.extra.validation.ValidationUtil;
 import com.pioneer.common.annotation.DataScope;
 import com.pioneer.common.constant.UserConstants;
+import com.pioneer.common.enums.UserStatus;
 import com.pioneer.common.exception.CustomException;
 import com.pioneer.common.utils.SecurityUtils;
 import com.pioneer.web.system.domain.*;
@@ -221,6 +222,9 @@ public class SysUserServiceImpl implements ISysUserService {
      */
     @Override
     public int insertUser(SysUser user) {
+        // 帐号状态、删除标志：默认正常
+        user.setStatus(UserStatus.OK.getCode());
+        user.setDelFlag(UserStatus.OK.getCode());
         // 新增用户信息
         int rows = userMapper.insertUser(user);
         // 新增用户岗位关联
