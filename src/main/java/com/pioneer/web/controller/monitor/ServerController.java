@@ -21,11 +21,10 @@ public class ServerController {
      * 获取服务器监控信息
      *
      * @return 结果
-     * @throws Exception 异常
      */
     @PreAuthorize("@ss.hasPerm('monitor:server:list')")
     @GetMapping()
-    public AjaxResult getInfo() throws Exception {
+    public AjaxResult getInfo() {
         Server server = new Server();
         server.copyTo();
         return AjaxResult.success(server);

@@ -131,7 +131,7 @@
         <dependency>
             <groupId>com.github.oshi</groupId>
             <artifactId>oshi-core</artifactId>
-            <version>6.1.5</version>
+            <version>6.1.6</version>
         </dependency>
 
         <!-- 糊涂工具包：https://hutool.cn -->

@@ -30,11 +30,10 @@ public class CacheController {
      * 获取缓存监控信息
      *
      * @return 结果
-     * @throws Exception 异常
      */
     @PreAuthorize("@ss.hasPerm('monitor:cache:list')")
     @GetMapping()
-    public AjaxResult getInfo() throws Exception {
+    public AjaxResult getInfo() {
         Properties info = (Properties) redisTemplate.execute((RedisCallback<Object>) RedisServerCommands::info);
         Properties commandStats = (Properties) redisTemplate.execute((RedisCallback<Object>) connection -> connection.info("commandstats"));
         Object dbSize = redisTemplate.execute((RedisCallback<Object>) RedisServerCommands::dbSize);
