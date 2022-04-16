@@ -38,7 +38,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
      * 认证失败处理类
      */
     @Resource
-    private AuthenticationEntryPointImpl unauthorizedHandler;
+    private AuthenticationEntryPointImpl authenticationEntryPoint;
 
     /**
      * 退出处理类
@@ -88,7 +88,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 // CSRF禁用，因为不使用session
                 .csrf().disable()
                 // 认证失败处理类
-                .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
+                .exceptionHandling().authenticationEntryPoint(authenticationEntryPoint).and()
                 // 退出成功处理类
                 .logout().logoutUrl("/logout").logoutSuccessHandler(logoutSuccessHandler).and()
                 // 基于token，所以不需要session

@@ -51,7 +51,7 @@ public class SysConfigServiceImpl extends ServiceImpl<SysConfigMapper, SysConfig
      */
     @Override
     public String selectConfigByKey(String configKey) {
-        String configValue = Convert.toStr(redisCache.getCacheObject(getCacheKey(configKey)));
+        String configValue = redisCache.getCacheObject(getCacheKey(configKey));
         if (StrUtil.isNotEmpty(configValue)) {
             return configValue;
         }
