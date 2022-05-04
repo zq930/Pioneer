@@ -437,6 +437,6 @@ public class SysMenuServiceImpl implements ISysMenuService {
      * @return 结果
      */
     public String innerLinkReplaceEach(String path) {
-        return path.toLowerCase().replace("http://", StrUtil.EMPTY).replace("https://", StrUtil.EMPTY);
+        return path.toLowerCase().replaceAll("(http|https)://", StrUtil.EMPTY);
     }
 }

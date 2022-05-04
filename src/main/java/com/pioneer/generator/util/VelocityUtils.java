@@ -218,7 +218,7 @@ public class VelocityUtils {
         for (GenTableColumn column : columns) {
             if (!column.isSuperColumn() && GenConstants.TYPE_DATE.equals(column.getJavaType())) {
                 importList.add("java.time.LocalDateTime");
-            } else if (!column.isSuperColumn() && GenConstants.TYPE_BIGDECIMAL.equals(column.getJavaType())) {
+            } else if (!column.isSuperColumn() && GenConstants.TYPE_BIG_DECIMAL.equals(column.getJavaType())) {
                 importList.add("java.math.BigDecimal");
             }
         }

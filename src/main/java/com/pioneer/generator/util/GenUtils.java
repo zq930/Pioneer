@@ -42,22 +42,22 @@ public class GenUtils {
         column.setJavaType(GenConstants.TYPE_STRING);
         column.setQueryType(GenConstants.QUERY_EQ);
 
-        if (ArrayUtil.contains(GenConstants.COLUMNTYPE_STR, dataType) || ArrayUtil.contains(GenConstants.COLUMNTYPE_TEXT, dataType)) {
+        if (ArrayUtil.contains(GenConstants.COLUMN_TYPE_STR, dataType) || ArrayUtil.contains(GenConstants.COLUMN_TYPE_TEXT, dataType)) {
             // 字符串长度超过500设置为文本域
             Integer columnLength = getColumnLength(column.getColumnType());
-            String htmlType = columnLength >= 500 || ArrayUtil.contains(GenConstants.COLUMNTYPE_TEXT, dataType) ? GenConstants.HTML_TEXTAREA : GenConstants.HTML_INPUT;
+            String htmlType = columnLength >= 500 || ArrayUtil.contains(GenConstants.COLUMN_TYPE_TEXT, dataType) ? GenConstants.HTML_TEXTAREA : GenConstants.HTML_INPUT;
             column.setHtmlType(htmlType);
-        } else if (ArrayUtil.contains(GenConstants.COLUMNTYPE_TIME, dataType)) {
+        } else if (ArrayUtil.contains(GenConstants.COLUMN_TYPE_TIME, dataType)) {
             column.setJavaType(GenConstants.TYPE_DATE);
             column.setHtmlType(GenConstants.HTML_DATETIME);
-        } else if (ArrayUtil.contains(GenConstants.COLUMNTYPE_NUMBER, dataType)) {
+        } else if (ArrayUtil.contains(GenConstants.COLUMN_TYPE_NUMBER, dataType)) {
             column.setHtmlType(GenConstants.HTML_INPUT);
 
             String[] str = StrUtil.splitToArray(StrUtil.subBetween(column.getColumnType(), "(", ")"), ",");
             int floatLength = 2, intLength = 10;
             if (str != null && str.length == floatLength && Integer.parseInt(str[1]) > 0) {
                 // 如果是浮点型 统一用BigDecimal
-                column.setJavaType(GenConstants.TYPE_BIGDECIMAL);
+                column.setJavaType(GenConstants.TYPE_BIG_DECIMAL);
             } else if (str != null && str.length == 1 && Integer.parseInt(str[0]) <= intLength) {
                 // 如果是整形
                 column.setJavaType(GenConstants.TYPE_INTEGER);
@@ -71,15 +71,15 @@ public class GenUtils {
         column.setIsInsert(GenConstants.REQUIRE);
 
         // 编辑字段
-        if (!ArrayUtil.contains(GenConstants.COLUMNNAME_NOT_EDIT, columnName) && !column.isPk()) {
+        if (!ArrayUtil.contains(GenConstants.COLUMN_NAME_NOT_EDIT, columnName) && !column.isPk()) {
             column.setIsEdit(GenConstants.REQUIRE);
         }
         // 列表字段
-        if (!ArrayUtil.contains(GenConstants.COLUMNNAME_NOT_LIST, columnName) && !column.isPk()) {
+        if (!ArrayUtil.contains(GenConstants.COLUMN_NAME_NOT_LIST, columnName) && !column.isPk()) {
             column.setIsList(GenConstants.REQUIRE);
         }
         // 查询字段
-        if (!ArrayUtil.contains(GenConstants.COLUMNNAME_NOT_QUERY, columnName) && !column.isPk()) {
+        if (!ArrayUtil.contains(GenConstants.COLUMN_NAME_NOT_QUERY, columnName) && !column.isPk()) {
             column.setIsQuery(GenConstants.REQUIRE);
         }
 

@@ -120,13 +120,6 @@ public class BaseController {
     }
 
     /**
-     * 返回成功消息
-     */
-    public AjaxResult success(String message) {
-        return AjaxResult.success(message);
-    }
-
-    /**
      * 返回失败消息
      */
     public AjaxResult error(String message) {
@@ -165,13 +158,6 @@ public class BaseController {
      */
     public Long getUserId() {
         return getLoginUser().getUserId();
-    }
-
-    /**
-     * 获取登录部门id
-     */
-    public Long getDeptId() {
-        return getLoginUser().getDeptId();
     }
 
     /**

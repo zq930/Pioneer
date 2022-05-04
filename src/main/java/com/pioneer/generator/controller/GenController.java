@@ -136,7 +136,7 @@ public class GenController extends BaseController {
      * 生成代码（下载方式）
      */
     @PreAuthorize("@ss.hasPerm('tool:gen:code')")
-    @Log(title = "代码生成", businessType = BusinessType.GENCODE)
+    @Log(title = "代码生成", businessType = BusinessType.GEN_CODE)
     @GetMapping("/download/{tableName}")
     public void download(HttpServletResponse response, @PathVariable String tableName) throws IOException {
         byte[] data = genTableService.downloadCode(tableName);
@@ -147,7 +147,7 @@ public class GenController extends BaseController {
      * 生成代码（自定义路径）
      */
     @PreAuthorize("@ss.hasPerm('tool:gen:code')")
-    @Log(title = "代码生成", businessType = BusinessType.GENCODE)
+    @Log(title = "代码生成", businessType = BusinessType.GEN_CODE)
     @GetMapping("/genCode/{tableName}")
     public AjaxResult genCode(@PathVariable("tableName") String tableName) {
         genTableService.generatorCode(tableName);
@@ -169,7 +169,7 @@ public class GenController extends BaseController {
      * 批量生成代码
      */
     @PreAuthorize("@ss.hasPerm('tool:gen:code')")
-    @Log(title = "代码生成", businessType = BusinessType.GENCODE)
+    @Log(title = "代码生成", businessType = BusinessType.GEN_CODE)
     @GetMapping("/batchGenCode")
     public void batchGenCode(HttpServletResponse response, String tables) throws IOException {
         String[] tableNames = Convert.toStrArray(tables);

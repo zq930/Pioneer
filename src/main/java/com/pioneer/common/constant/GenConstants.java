@@ -51,39 +51,39 @@ public interface GenConstants {
     /**
      * 数据库字符串类型
      */
-    String[] COLUMNTYPE_STR = {"char", "varchar", "nvarchar", "varchar2"};
+    String[] COLUMN_TYPE_STR = {"char", "varchar", "nvarchar", "varchar2"};
 
     /**
      * 数据库文本类型
      */
-    String[] COLUMNTYPE_TEXT = {"tinytext", "text", "mediumtext", "longtext"};
+    String[] COLUMN_TYPE_TEXT = {"tinytext", "text", "mediumtext", "longtext"};
 
     /**
      * 数据库时间类型
      */
-    String[] COLUMNTYPE_TIME = {"datetime", "time", "date", "timestamp"};
+    String[] COLUMN_TYPE_TIME = {"datetime", "time", "date", "timestamp"};
 
     /**
      * 数据库数字类型
      */
-    String[] COLUMNTYPE_NUMBER = {"tinyint", "smallint", "mediumint", "int", "number", "integer",
+    String[] COLUMN_TYPE_NUMBER = {"tinyint", "smallint", "mediumint", "int", "number", "integer",
             "bit", "bigint", "float", "double", "decimal"};
 
     /**
      * 页面不需要编辑字段
      */
-    String[] COLUMNNAME_NOT_EDIT = {"id", "create_by", "create_time", "del_flag"};
+    String[] COLUMN_NAME_NOT_EDIT = {"id", "create_by", "create_time", "del_flag"};
 
     /**
      * 页面不需要显示的列表字段
      */
-    String[] COLUMNNAME_NOT_LIST = {"id", "create_by", "create_time", "del_flag", "update_by",
+    String[] COLUMN_NAME_NOT_LIST = {"id", "create_by", "create_time", "del_flag", "update_by",
             "update_time"};
 
     /**
      * 页面不需要查询字段
      */
-    String[] COLUMNNAME_NOT_QUERY = {"id", "create_by", "create_time", "del_flag", "update_by",
+    String[] COLUMN_NAME_NOT_QUERY = {"id", "create_by", "create_time", "del_flag", "update_by",
             "update_time", "remark"};
 
     /**
@@ -159,7 +159,7 @@ public interface GenConstants {
     /**
      * 高精度计算类型
      */
-    String TYPE_BIGDECIMAL = "BigDecimal";
+    String TYPE_BIG_DECIMAL = "BigDecimal";
 
     /**
      * 时间类型
