@@ -1,4 +1,27 @@
-﻿## 开发部署
+﻿<h1 style="text-align: center; margin: 30px 0 30px; font-weight: bold;">Pioneer</h1>
+<div style="text-align: center;">
+	<a target="_blank" href="https://gitee.com/zq930/Pioneer/blob/master/LICENSE">
+		<img src="https://img.shields.io/:license-MIT-blueviolet.svg"/>
+	</a>
+	<a target="_blank" href="https://www.oracle.com/java/technologies/javase/javase8-archive-downloads.html">
+		<img src="https://img.shields.io/badge/JDK-8.0.201-orange.svg"/>
+	</a>
+</div>
+
+## 简介
+<div>
+一套基于SpringBoot2.6.x + Vue3.x 前后端分离的Java快速开发框架，此项目为后端。
+<p>
+    <a href="https://gitee.com/zq930/Pioneer">
+        <img src="https://img.shields.io/badge/后端项目-Pioneer-yellow.svg">
+    </a>
+    <a href="https://gitee.com/zq930/PioneerUI">
+    <img src="https://img.shields.io/badge/前端项目-PioneerUI-green.svg">
+    </a>
+</p>
+</div>
+
+### 开发部署
 
 1. 安装jdk8+
 2. 安装Maven3.6+
@@ -6,7 +29,7 @@
 4. 安装数据库，推荐Mysql8.0版本，创建数据库后执行sql/pioneer.sql
 5. 开发部署需要配置application.yml环境，以及对应yml中的数据库、redis、文件路径等参数
 
-## 内置功能
+### 内置功能
 
 1. 用户管理：用户是系统操作者，该功能主要完成系统用户配置。
 2. 角色管理：角色菜单权限分配，设置角色按机构进行数据范围权限划分。
